@@ -1,81 +1,81 @@
+//function library & react component
 import React from 'react';
-import { connect } from 'react-redux';
-import { questionAnswered, getScore } from '../../actions';
-import QDetails from './QDetails';
-import List from '@material-ui/core/List';
+import { connect } from 'react-redux'
+import { questionAnswered } from '../../actions'
 import _ from 'lodash';
 
+//style component
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import Radio from '@material-ui/core/Radio';
+import FormControl from '@material-ui/core/FormControl';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import TextField from '@material-ui/core/TextField';
+import List from '@material-ui/core/List';
+import ListItemText from '@material-ui/core/ListItemText';
 
 
-class QList extends React.Component {
+class QDetail extends React.Component {
 
-    onChangeHandler = (e, questionTag, skipQTag) => {
-        const { questionAnswered, action } = this.props
-        e.preventDefault();
-        if (skipQTag) {
-            questionAnswered(action.name, questionTag, e.target.value, skipQTag.skip);
+    onClickHandler = (response) => (event) => {
+        if (!response) {
+            this.props.questionAnswered(
+                this.props.action.name,
+                this.props.question.name,
+                event.target.value)
+            return;
         }
-        else questionAnswered(action.name, questionTag, e.target.value);
+        const responseObj = response[event.target.value]
+        this.props.questionAnswered(
+            this.props.action.name,
+            this.props.question.name,
+            responseObj.text,
+            responseObj.skip)
+    }
+    isAnswered(answered) {
+        return (!answered || !answered[this.props.question.name]);
     }
 
-    isSkip = (question) => {
-        const { skipQs } = this.props;
-        if (!skipQs) return false;
-        let res = false;
-        Object.values(skipQs).forEach(questionTag => {
-            res = res || ((!questionTag.skipTags) ? false : (questionTag.skipTags.filter(skipQTags => {
-                return skipQTags === question
-            }).length !== 0));
-        })
-        return res;
-    }
-
-    renderList() {
-        const { questions } = this.props;
-        return (
-            _.tail(questions).map(question => {
-                return (
-                    <React.Fragment>{(this.isSkip(question.name)) ? <></> :
-                        <QDetails question={question} onAnswered={this.onChangeHandler} />}</React.Fragment>
-                );
-            }));
-    }
-
-    handleClick = (e) => {
-        const { action, answered } = this.props;
-        this.props.getScore(action.name, answered)
-    }
-
-    renderActionScore() {
-        const { answered, action } = this.props;
-        if (!answered) { return "Are You Going To Do This?" }
-        else {
-            const { score } = answered;
-            return (!score) ? "Are You Going To Do This?" : `Congrats! You Earned ${Object.values(score).reduce((a, b) => a + b, 0)} / ${action.average_carbon_points} points!`
+    renderAnswer = () => {
+        const { question, answered } = this.props;
+        let value = (this.isAnswered(answered)) ? '' : answered[this.props.question.name];
+        if (question.questionType === "Choice") {
+            const response = _.mapKeys(Object.values(question.responses), 'text');
+            return (
+                <FormControl component="fieldset">
+                    <RadioGroup aria-label="response"
+                        value={value} onChange={this.onClickHandler(response)}>
+                        {question.responses.map(response => {
+                            return (
+                                <FormControlLabel key={`${question.name}${response.text}`} value={response.text} control={<Radio />} label={response.text} />
+                            );
+                        })}
+                    </RadioGroup>
+                </FormControl>);
+        } else {
+            return <TextField value={value} placeholder="Please answer the above question" onChange={this.onClickHandler()} />
         }
     }
+
     render() {
-        const { questions } = this.props;
         return (
             <>
-                <List >
-                    <QDetails question={questions[0]} onAnswered={this.onChangeHandler} />
-                    {this.renderList()}
-                </List>
-                <Typography>{this.renderActionScore()}</Typography>
-                <Button onClick={this.handleClick}>I'll Do It!</Button>
+                <ListItemText primary={this.props.question.questionText} />
+                <List>
+                    {this.renderAnswer()}
+                </List >
             </>
         );
     }
 }
 
 const mapStateToProps = (state, ownProps) => {
+
     return {
-        skipQs: state.skip,
-        answered: state.answered[ownProps.action.name]
+
+        answered: state.answered[ownProps.action.name],
+
     }
 }
 
-export default connect(mapStateToProps, { questionAnswered, getScore })(QList);
+export default connect(mapStateToProps, { questionAnswered })(QDetail);

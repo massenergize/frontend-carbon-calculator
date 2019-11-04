@@ -1,11 +1,16 @@
-import { answeredReducer, skipReducer } from './answeredReducer';
+
+import { reducer as formReducer } from 'redux-form';
+import { answeredReducer } from './answeredReducer';
 import eventsReducer from './eventsReducer';
 import authReducer from './authReducer';
 import { combineReducers } from 'redux';
+import { firebaseReducer } from 'react-redux-firebase';
+
 
 export default combineReducers({
     answered: answeredReducer,
-    events: eventsReducer,
-    skip: skipReducer,
-    auth: authReducer
+    event: eventsReducer,
+    auth: authReducer,
+    firebase: firebaseReducer,
+    form: formReducer,
 })

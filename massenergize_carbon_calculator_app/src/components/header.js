@@ -126,10 +126,12 @@ class Header extends React.Component {
             case "Google":
                 {
                     window.gapi.auth2.getAuthInstance().signOut();
+                    break;
                 }
             case "Facebook":
                 {
                     window.FB.logout(() => this.props.signOut());
+                    break;
                 }
         }
         this.props.signOut();

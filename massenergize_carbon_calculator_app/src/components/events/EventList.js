@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 
@@ -53,24 +52,22 @@ class EventList extends React.Component {
             const date = new Date(event.datetime);
             const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
             return (
-                <React.Fragment key={event}>
-                    <Grid item xs={12}>
-                        <Link className={classes.link} to={`/event/${event.name}`}>
-                            <Paper className={classes.paperContainer}>
-                                <Grid container direction="row" spacing={2}>
-                                    <Grid item xs={2} container direction="column" alignItems="center">
-                                        <Grid item><Typography >{months[date.getMonth()]}</Typography></Grid>
-                                        <Grid item ><Typography variant="h5">{date.getDate()}</Typography></Grid>
-                                    </Grid>
-                                    <Grid container item xs={9} direction="column" spacing={2}>
-                                        <Grid item><Typography variant="h5" className={classes.displayname}>{event.displayname}</Typography></Grid>
-                                        <Grid item ><Typography className={classes.location}>{event.location}</Typography></Grid>
-                                    </Grid>
+                <Grid key={event} item xs={12}>
+                    <Link className={classes.link} to={`/event/${event.name}`}>
+                        <Paper className={classes.paperContainer}>
+                            <Grid container direction="row" spacing={2}>
+                                <Grid item xs={2} container direction="column" alignItems="center">
+                                    <Grid item><Typography >{months[date.getMonth()]}</Typography></Grid>
+                                    <Grid item ><Typography variant="h5">{date.getDate()}</Typography></Grid>
                                 </Grid>
-                            </Paper>
-                        </Link>
-                    </Grid>
-                </React.Fragment>
+                                <Grid container item xs={9} direction="column" spacing={2}>
+                                    <Grid item><Typography variant="h5" className={classes.displayname}>{event.displayname}</Typography></Grid>
+                                    <Grid item ><Typography className={classes.location}>{event.location}</Typography></Grid>
+                                </Grid>
+                            </Grid>
+                        </Paper>
+                    </Link>
+                </Grid>
             );
         })
     }

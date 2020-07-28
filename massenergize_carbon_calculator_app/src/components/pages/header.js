@@ -45,7 +45,7 @@ const useStyles = makeStyles(theme => ({
   logo: {
     flexGrow: 1,
     '& img': {
-      maxWidth: 100,
+      maxWidth: 120,
     },
     '& img::hover': {
       opacity: 0.1,
@@ -131,6 +131,7 @@ function Header() {
         getUser(auth.currentUser)
       }
     })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loading])
 
   // Handling user sign out

@@ -56,6 +56,7 @@ const BasicInfo = () => {
   }
   React.useEffect(() => {
     getGroups()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loading])
 
   const onFinalSubmit = async formValues => {

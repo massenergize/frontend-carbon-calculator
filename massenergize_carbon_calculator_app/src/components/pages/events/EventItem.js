@@ -59,6 +59,7 @@ const EventItem = () => {
   }
   React.useEffect(() => {
     getEvent()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loading])
   // Reformat phone number to +1(XXX) XXX XXXX for display
   const reformattedPhone = phone => {

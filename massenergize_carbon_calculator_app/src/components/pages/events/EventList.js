@@ -10,7 +10,8 @@ import { makeStyles } from '@material-ui/core/styles'
 import { fetchEvents } from '../../../actions'
 import { useSelectedState } from '../../context/SelectedContext'
 import { useEventState } from '../../context/EventContext'
-import Header from '../header'
+//import Header from '../header'
+
 
 // Style defination
 const useStyle = makeStyles({
@@ -37,11 +38,11 @@ const useStyle = makeStyles({
   },
   displayname: {
     fontWeight: 'bold',
-    fontSize: '2em',
+    fontSize: '2.5em',
     display: 'flex',
   },
   location: {
-    fontSize: '1.5em',
+    fontSize: '2.5em',
   },
   eventContent: {
     margin: '0vh 4vh',
@@ -62,6 +63,7 @@ const EventList = () => {
   // Fetch event information upon Mount and Update
   React.useEffect(() => {
     getEvents()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loading])
 
   const classes = useStyle()
@@ -135,7 +137,7 @@ const EventList = () => {
         <Grid container>
           <Grid item>
             <Typography
-              variant="h4"
+              variant="h6"
               style={{
                 margin: '1vh 1vh',
                 padding: '1vh 1vh',
@@ -145,7 +147,7 @@ const EventList = () => {
               Upcoming Events
             </Typography>
           </Grid>
-          <Grid item xs={12} container>
+          <Grid container item xs={12}>
             {renderList()}
           </Grid>
         </Grid>

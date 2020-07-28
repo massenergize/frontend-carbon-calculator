@@ -8,7 +8,7 @@ import Tabs from '@material-ui/core/Tabs'
 import Typography from '@material-ui/core/Typography'
 import Box from '@material-ui/core/Box'
 import Grid from '@material-ui/core/Grid'
-import LocationOnIcon from '@material-ui/icons/LocationOn'
+//import LocationOnIcon from '@material-ui/icons/LocationOn'
 import ScheduleIcon from '@material-ui/icons/Schedule'
 
 import useMediaQuery from '@material-ui/core/useMediaQuery'

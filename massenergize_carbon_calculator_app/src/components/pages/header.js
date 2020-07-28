@@ -131,6 +131,7 @@ function Header() {
         getUser(auth.currentUser)
       }
     })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loading])
 
   // Handling user sign out

@@ -29,7 +29,7 @@ export const signOut = () => ({
 // fetchEvents action, fetch all events for user selection
 export const fetchEvents = async () => {
   const response = await api.get('/cc/info/events')
-  return response.data.eventList
+  return response.data.data.eventList
 }
 // fetchEvent action, fetch a single event
 export const fetchEvent = async id => {
@@ -75,7 +75,7 @@ export const unpostScore = async ({ userId, actionName, ...params }) => {
 // fetchGroups action, fetch all groups for user selection
 export const fetchGroups = async () => {
   const response = await api.get(`/cc/info/groups`)
-  return response.data.groupList
+  return response.data.data.groupList
 }
 // createUser action, send POST request to backend to save user registration info to database
 export const createUser = async (formValues, email, selected) => {

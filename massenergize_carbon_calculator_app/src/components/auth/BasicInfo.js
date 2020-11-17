@@ -62,6 +62,7 @@ const BasicInfo = () => {
   const onFinalSubmit = async formValues => {
     const email = _.get(auth, 'currentUser.email')
     const status = await createUser({ ...formValues, groups }, email, selected)
+    console.log(status)
     if (status.data.success) {
       const newUser = await fetchUser(auth.currentUser)
       setAuthState(newUser)
@@ -199,7 +200,6 @@ const BasicInfo = () => {
                   <FormLabel component="legend">Groups</FormLabel>
                   <FormGroup>
                     {groupState.map(group => {
-                      console.log(groups)
                       return (
                         <FormControlLabel
                           control={

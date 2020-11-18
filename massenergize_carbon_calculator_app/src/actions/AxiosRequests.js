@@ -8,7 +8,7 @@ export const fetchQuestions = actionName => async dispatch => {
 
   dispatch({
     type: types.FETCH_ACTION_QUESTIONS,
-    payload: response.data.questionInfo,
+    payload: response.data.data.questionInfo,
   })
 }
 // getUser action to get the user
@@ -34,7 +34,7 @@ export const fetchEvents = async () => {
 // fetchEvent action, fetch a single event
 export const fetchEvent = async id => {
   const response = await api.get(`/cc/info/event/${id}`)
-  return response.data
+  return response.data.data
 }
 
 // Send query to backend to calculate points and post score
@@ -43,7 +43,7 @@ export const getScore = async ({ actionName, ...params }) => {
   const response = await api.get(`/cc/estimate/${actionName}`, {
     params: { ...params },
   })
-  return response.data
+  return response.data.data
 }
 
 export const postScore = async ({ userId, actionName, ...params }) => {
@@ -56,7 +56,7 @@ export const postScore = async ({ userId, actionName, ...params }) => {
     user_id: userId,
     headers: { 'X-CSRFToken': csrfToken },
   })
-  return response.data
+  return response.data.data
 }
 
 export const unpostScore = async ({ userId, actionName, ...params }) => {
@@ -70,7 +70,7 @@ export const unpostScore = async ({ userId, actionName, ...params }) => {
     user_id: userId,
     headers: { 'X-CSRFToken': csrfToken },
   })
-  return response.data
+  return response.data.data
 }
 // fetchGroups action, fetch all groups for user selection
 export const fetchGroups = async () => {
@@ -100,5 +100,5 @@ export const createUser = async (formValues, email, selected) => {
     ...params,
     headers: { 'X-CSRFToken': csrfToken },
   })
-  return response.data
+  return response.data.data
 }

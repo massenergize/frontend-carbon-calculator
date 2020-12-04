@@ -52,7 +52,7 @@ const HostInfo = ({ name, url, logo, contact, email, phone }) => {
 HostInfo.propTypes = {
   name: PropTypes.string,
   url: PropTypes.string,
-  logo: PropTypes.string,
+  logo: PropTypes.number,
   contact: PropTypes.string,
   email: PropTypes.string,
   phone: PropTypes.string,

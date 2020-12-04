@@ -34,7 +34,7 @@ const NavList = ({ routes }) => {
     <List>
       {routes.map(route => (
         <ListItem button key={route} className={classes.button}>
-          <Link color="#8dc63f" fontWeight="bold" width="100%" route={route}>
+          <Link color="#67b6e4" fontWeight="bold" width="100%" route={route}>
             <ListItemText primary={startCase(route)} />
           </Link>
         </ListItem>

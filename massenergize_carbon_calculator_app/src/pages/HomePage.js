@@ -1,16 +1,16 @@
 import React, { useCallback, useEffect } from 'react'
-import { isLoaded, isEmpty } from 'react-redux-firebase'
+import { isEmpty } from 'react-redux-firebase'
 import { Redirect } from 'react-router-dom'
 import { Grid } from '@material-ui/core'
 import { useSelector } from 'react-redux'
 import EventItem from './events/EventItem'
 import { useAuthState } from '../context/AuthContext'
-import LoadingSpinner from '../components/LoadingSpinner'
 import { fetchUser } from '../actions'
+import AuthIsLoaded from '../container/AuthIsLoadContainer'
 
 const HomePage = () => {
   const firebaseAuth = useSelector(({ firebase: { auth } }) => auth)
-  const { setAuthState } = useAuthState()
+  const { authState, setAuthState } = useAuthState()
 
   const getUser = useCallback(async () => {
     if (!isEmpty(firebaseAuth)) {
@@ -22,21 +22,20 @@ const HomePage = () => {
   useEffect(() => {
     getUser()
   }, [getUser])
-
-  if (!isLoaded(firebaseAuth)) return <LoadingSpinner />
-
   return (
-    <Grid item xs={12}>
-      {!isEmpty(firebaseAuth) ? (
-        <EventItem />
-      ) : (
-        <Redirect
-          to={{
-            pathname: '/auth/signin',
-          }}
-        />
-      )}
-    </Grid>
+    <AuthIsLoaded>
+      <Grid item xs={12}>
+        {!firebaseAuth.isEmpty && authState ? (
+          <EventItem />
+        ) : (
+          <Redirect
+            to={{
+              pathname: '/auth/signin',
+            }}
+          />
+        )}
+      </Grid>
+    </AuthIsLoaded>
   )
 }
 export default HomePage

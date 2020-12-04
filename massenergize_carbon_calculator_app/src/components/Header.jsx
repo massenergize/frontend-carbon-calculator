@@ -1,6 +1,5 @@
-import React, { useState } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
-import { withRouter } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
 import {
   AppBar,
@@ -8,9 +7,11 @@ import {
   IconButton,
   Typography,
   CssBaseline,
+  Hidden,
 } from '@material-ui/core'
 import MenuIcon from '@material-ui/icons/Menu'
-import HeaderButton from './HeaderButton'
+import { startCase } from 'lodash'
+import AuthButton from './auth/AuthButton'
 import Link from './Link'
 import LoadingSpinner from './LoadingSpinner'
 import TemporaryLeftDrawer from './TemporaryLeftDrawer'
@@ -22,6 +23,16 @@ const useStyles = makeStyles({
   },
   appBar: {
     backgroundColor: '#fff',
+    boxShadow: 'none',
+    borderBottom: '1px solid #cfcfcf',
+  },
+  nav: {
+    padding: '10px',
+    fontSize: '16px',
+    marginRight: '20px',
+    '&:hover': {
+      backgroundColor: '#f2f2f2',
+    },
   },
   button: {
     backgroundColor: 'inherit',
@@ -57,8 +68,9 @@ const useStyles = makeStyles({
   rightPositioned: {
     position: 'absolute',
     right: 0,
-    display: 'inline-block',
+    display: 'inline-flex',
     marginRight: 20,
+    alignItems: 'center',
   },
 })
 
@@ -70,26 +82,26 @@ const Header = ({
   signInNav,
   title,
   showLogin,
+  isDrawerOpen,
+  toggleDrawer,
 }) => {
   const classes = useStyles()
-  const [isOpen, setIsOpen] = useState(false)
 
-  const toggleDrawer = value => () => {
-    setIsOpen(value)
-  }
   return (
     <div className={classes.root}>
       <CssBaseline />
       <AppBar display="flex" position="static" className={classes.appBar}>
         <Toolbar>
-          <IconButton
-            edge="start"
-            onClick={toggleDrawer(true)}
-            className={classes.menuButton}
-            aria-label="open drawer"
-          >
-            <MenuIcon className={classes.menuIcon} />
-          </IconButton>
+          <Hidden mdUp>
+            <IconButton
+              edge="start"
+              onClick={toggleDrawer(true)}
+              className={classes.menuButton}
+              aria-label="open drawer"
+            >
+              <MenuIcon className={classes.menuIcon} />
+            </IconButton>
+          </Hidden>
           <Typography variant="h6" className={classes.logo}>
             <Link route={logoLink}>
               <img
@@ -101,28 +113,50 @@ const Header = ({
           <Typography className={classes.headerTitle} variant="h4">
             {title}
           </Typography>
-          {/* {showLogin && ( */}
           <div className={classes.rightPositioned}>
-            {loading ? (
-              <LoadingSpinner />
-            ) : (
-              <HeaderButton signInNav={signInNav} onSignOut={onSignOut} />
-            )}
+            <Hidden mdDown>
+              {drawerRoutes.map(route => (
+                <Link
+                  key={route}
+                  className={classes.nav}
+                  color="#67b6e4"
+                  fontWeight="bold"
+                  width="100%"
+                  route={route}
+                >
+                  {startCase(route)}
+                </Link>
+              ))}
+              {showLogin && (
+                <AuthButton
+                  signInNav={signInNav}
+                  loading={loading}
+                  onSignOut={onSignOut}
+                />
+              )}
+            </Hidden>
           </div>
-          {/* )} */}
         </Toolbar>
       </AppBar>
-      <TemporaryLeftDrawer
-        isOpen={isOpen}
-        toggleDrawer={toggleDrawer}
-        drawerRoutes={drawerRoutes}
-      />
+      <Hidden mdUp>
+        <TemporaryLeftDrawer
+          signInNav={signInNav}
+          onSignOut={onSignOut}
+          isOpen={isDrawerOpen}
+          toggleDrawer={toggleDrawer}
+          drawerRoutes={drawerRoutes}
+          showLogin={showLogin}
+          loading={loading}
+        />
+      </Hidden>
     </div>
   )
 }
 
 Header.propTypes = {
   loading: PropTypes.bool,
+  isDrawerOpen: PropTypes.bool,
+  toggleDrawer: PropTypes.func,
   drawerRoutes: PropTypes.arrayOf(PropTypes.string),
   logoLink: PropTypes.string,
   onSignOut: PropTypes.func,

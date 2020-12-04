@@ -1,7 +1,8 @@
 // Functional component imports
 import React, { useState, useCallback, useEffect } from 'react'
-import { useHistory } from 'react-router-dom'
-import { useFirebase } from 'react-redux-firebase'
+import { useHistory, useLocation } from 'react-router-dom'
+import { isLoaded, useFirebase } from 'react-redux-firebase'
+import { useSelector } from 'react-redux'
 import { fetchUser } from '../actions'
 import { useAuthState } from '../context/AuthContext'
 import HeaderComponent from '../components/Header'
@@ -9,11 +10,17 @@ import HeaderComponent from '../components/Header'
 // Header Component
 function Header() {
   const [loading, setLoading] = useState(true)
-  const history = useHistory()
+  const [isOpen, setIsOpen] = useState(false)
+
+  const location = useLocation()
+
+  const toggleDrawer = value => () => {
+    setIsOpen(value)
+  }
 
   const { setAuthState } = useAuthState()
   const firebase = useFirebase()
-  const auth = firebase.auth()
+  const auth = useSelector(state => state.auth)
 
   const getUser = useCallback(
     async user => {
@@ -25,15 +32,18 @@ function Header() {
   )
 
   useEffect(() => {
-    auth.onAuthStateChanged(user => {
+    if (isLoaded(auth) && auth) {
+      getUser(auth)
+    }
+    firebase.auth().onAuthStateChanged(user => {
       if (!user) {
-        setAuthState(auth.currentUser)
+        setAuthState(user)
         setLoading(false)
       } else {
-        getUser(auth.currentUser)
+        getUser(user)
       }
     })
-  }, [auth, getUser, loading, setAuthState])
+  }, [auth, firebase, getUser, loading, setAuthState])
 
   // Handling user sign out
   const onSignOut = () => {
@@ -45,19 +55,16 @@ function Header() {
       })
   }
 
-  const signInNav = () => {
-    history.push('/auth/signin')
-  }
-
   return (
     <HeaderComponent
       loading={loading}
-      title="Carbon Saver - Learn about the impact of actions you can take."
+      title="Carbon Saver"
       logoLink=""
       onSignOut={onSignOut}
-      signInNav={signInNav}
       drawerRoutes={['home', 'summary', 'scoreboard', 'about']}
-      // showLogin={!location.pathname.includes('/auth')}
+      isDrawerOpen={isOpen}
+      toggleDrawer={toggleDrawer}
+      showLogin={!location.pathname.includes('/auth')}
     />
   )
 }

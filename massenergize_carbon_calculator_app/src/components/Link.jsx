@@ -10,11 +10,14 @@ const useStyles = makeStyles({
   }),
 })
 
-const LinkComponent = ({ route, children, ...stylesProps }) => {
+const LinkComponent = ({ route, className, children, ...stylesProps }) => {
   const classes = useStyles(stylesProps)
 
   return (
-    <Link to={`/${route === 'home' ? '' : route}`} className={classes.link}>
+    <Link
+      to={`/${route === 'home' ? '' : route}`}
+      className={`${classes.link} ${className}`}
+    >
       {children}
     </Link>
   )
@@ -23,6 +26,7 @@ const LinkComponent = ({ route, children, ...stylesProps }) => {
 LinkComponent.propTypes = {
   route: PropTypes.string,
   children: PropTypes.any,
+  className: PropTypes.any,
 }
 
 export default LinkComponent

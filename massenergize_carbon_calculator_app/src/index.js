@@ -8,6 +8,7 @@ import { ReactReduxFirebaseProvider } from 'react-redux-firebase'
 import firebase from './config/firebaseConfig'
 import App from './components/App'
 import reducers from './reducers'
+import './style/index.css'
 
 // For redux devtools
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose

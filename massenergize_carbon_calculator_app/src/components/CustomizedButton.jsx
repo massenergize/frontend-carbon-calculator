@@ -2,8 +2,9 @@ import { withStyles } from '@material-ui/core/styles'
 import { Button } from '@material-ui/core'
 
 // Styled Button
-const MyButton = withStyles({
+const CustomizedButton = withStyles({
   root: {
+    minWidth: '100px',
     color: '#fff',
     boxShadow: 'none',
     textTransform: 'none',
@@ -36,4 +37,4 @@ const MyButton = withStyles({
   },
 })(Button)
 
-export default MyButton
+export default CustomizedButton

@@ -8,17 +8,15 @@ import List from '@material-ui/core/List'
 import Button from '@material-ui/core/Button'
 import ExpandMore from '@material-ui/icons/ExpandMore'
 import Divider from '@material-ui/core/Divider'
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary'
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails'
-import ExpansionPanel from '@material-ui/core/ExpansionPanel'
+import {
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+} from '@material-ui/core'
 import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
 import QList from './QList'
-import {
-  getScore,
-  unpostScore,
-  postScore,
-} from '../../actions'
+import { getScore, unpostScore, postScore } from '../../actions'
 import { useScoreState } from '../../context/ScoreContext'
 import { useAnsweredState } from '../../context/AnsweredContext'
 import { useSkipState } from '../../context/SkipContext'
@@ -125,19 +123,19 @@ const ActionItems = props => {
   }
   // Render object rendering layout of each action
   return (
-    <ExpansionPanel
+    <Accordion
       TransitionProps={{ unmountOnExit: true }}
       expanded={expanded === action.name}
       onChange={handleChange(action.name)}
     >
-      <ExpansionPanelSummary
+      <AccordionSummary
         expandIcon={<ExpandMore />}
         aria-controls="panel1c-content"
         id="panel1c-header"
       >
         <Typography variant="h6">{action.description}</Typography>
-      </ExpansionPanelSummary>
-      <ExpansionPanelDetails>
+      </AccordionSummary>
+      <AccordionDetails>
         <Grid container direction="column">
           <Grid item>
             <Typography variant="h6">Did You Know?</Typography>
@@ -192,9 +190,9 @@ const ActionItems = props => {
             )}
           </Grid>
         </Grid>
-      </ExpansionPanelDetails>
+      </AccordionDetails>
       <Divider />
-    </ExpansionPanel>
+    </Accordion>
   )
 }
 ActionItems.propTypes = {

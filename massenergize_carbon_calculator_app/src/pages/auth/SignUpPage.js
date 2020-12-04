@@ -65,8 +65,6 @@ const SignUpPage = () => {
     auth.currentUser.sendEmailVerification().then(() => setLoading(false))
   }
 
-  console.log(auth)
-
   // On Submit Handler
   const signUp = formValues => {
     firebase

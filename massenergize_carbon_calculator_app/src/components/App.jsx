@@ -7,19 +7,24 @@ import { Routes } from '../routes'
 import Context from '../context'
 import Header from '../pages/Header'
 import { AuthProvider } from '../context/AuthContext'
-// TODO: May apply context for authentication redirecting for EventItem
+import Footer from './Footer'
+import AuthIsLoaded from '../container/AuthIsLoadContainer'
+
 const App = () => (
-  <div>
+  <div className="container">
     <BrowserRouter>
       <Grid container direction="row" justify="flex-start" alignItems="center">
         <Grid item xs={12}>
           <AuthProvider>
-            <Header />
+            <AuthIsLoaded>
+              <Header />
+            </AuthIsLoaded>
           </AuthProvider>
         </Grid>
         <Context>
           <Routes />
         </Context>
+        <Footer />
       </Grid>
     </BrowserRouter>
   </div>

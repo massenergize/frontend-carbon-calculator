@@ -58,7 +58,6 @@ const BasicInfo = () => {
   React.useEffect(() => {
     getGroups()
   }, [getGroups, loading])
-  console.log(selected)
   const onFinalSubmit = async formValues => {
     const email = _.get(auth, 'currentUser.email')
     const status = await createUser({ ...formValues, groups }, email, selected)
@@ -67,7 +66,6 @@ const BasicInfo = () => {
       setAuthState(newUser)
     }
   }
-  console.log(authState)
   const basicInfoFormik = useFormik({
     initialValues: {
       first_name: '',
@@ -113,7 +111,9 @@ const BasicInfo = () => {
     },
   })
   if (loading) return <CircularProgress />
-  if (authState) return <Redirect to={`/event/${selected.name}`} />
+  if (authState) {
+    return <Redirect to={`/event/${selected.name}`} />
+  }
   return (
     <Paper className={classes.container}>
       <Typography variant="h3">Create Profile</Typography>

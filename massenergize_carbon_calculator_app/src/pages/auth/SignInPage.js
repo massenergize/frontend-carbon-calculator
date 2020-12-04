@@ -14,13 +14,12 @@ import { makeStyles } from '@material-ui/core/styles'
 import { useFormik } from 'formik'
 import { useFirebase, isLoaded } from 'react-redux-firebase'
 import { useSelector } from 'react-redux'
-import { isEmpty } from 'lodash'
 import { useAuthState } from '../../context/AuthContext'
 import { facebookProvider, googleProvider } from '../../config/firebaseConfig'
 import { fetchUser } from '../../actions'
 import BasicInfo from './BasicInfo'
 import { useSelectedState } from '../../context/SelectedContext'
-import LoadingSpinner from '../../components/LoadingSpinner'
+import AuthIsLoaded from '../../container/AuthIsLoadContainer'
 // Styling classes
 const useStyles = makeStyles({
   textInput: {
@@ -55,12 +54,12 @@ const LogInForm = () => {
   const classes = useStyles()
 
   const [loading, setLoading] = useState(false)
-  const [isFinishSignUp, setIsFinishSignUp] = useState(true)
+  const [isFinishSignUp, setIsFinishSignUp] = useState(false)
 
   const firebase = useFirebase()
   const firebaseAuth = useSelector(({ firebase: { auth } }) => auth)
 
-  const { setAuthState } = useAuthState()
+  const { authState, setAuthState } = useAuthState()
   const { selected } = useSelectedState()
 
   // // Send user verification email
@@ -172,126 +171,136 @@ const LogInForm = () => {
           })
       })
   }
-  console.log('Is Loaded?', isLoaded(firebaseAuth))
-  console.log('Is Empty?', firebaseAuth.isEmpty)
 
-  if (!isLoaded(firebaseAuth)) return <LoadingSpinner />
-  if (firebaseAuth.email && !firebaseAuth.isEmpty)
+  if (firebaseAuth.email && !firebaseAuth.isEmpty && !!authState)
     return <Redirect to={selected ? `/event/${selected?.name}` : '/'} />
 
-  if (!isFinishSignUp) return <BasicInfo />
-
+  if (isFinishSignUp) {
+    return (
+      <AuthIsLoaded>
+        <BasicInfo />
+      </AuthIsLoaded>
+    )
+  }
   // Render Auth Form for user sign in with other options print out
   return (
-    <Paper className={classes.container}>
-      <Typography variant="h5">
-        Please Enter Your Email and Password to Continue
-      </Typography>
-      <form noValidate autoComplete="off" onSubmit={signInFormik.handleSubmit}>
-        {signInFormik.status && (
-          <Typography style={{ color: 'red' }}>
-            {signInFormik.status}
-          </Typography>
-        )}
-        <Grid container direction="column" spacing={2}>
-          <Grid item>
-            <Grid container style={{ marginTop: '2vh' }} spacing={2}>
-              <Grid item xs={12}>
-                <TextField
-                  variant="outlined"
-                  type="email"
-                  label="Email"
-                  placeholder="email@example.com"
-                  margin="normal"
-                  className={classes.textInput}
-                  name="email"
-                  onBlur={signInFormik.handleBlur}
-                  onChange={signInFormik.handleChange}
-                  value={signInFormik.values.email}
-                  helperText={
-                    signInFormik.touched.email && signInFormik.errors.email
-                  }
-                  error={
-                    signInFormik.touched.email && !!signInFormik.errors.email
-                  }
-                />
+    <AuthIsLoaded>
+      <Paper className={classes.container}>
+        <Typography variant="h5">
+          Please Enter Your Email and Password to Continue
+        </Typography>
+        <form
+          noValidate
+          autoComplete="off"
+          onSubmit={signInFormik.handleSubmit}
+        >
+          {signInFormik.status && (
+            <Typography style={{ color: 'red' }}>
+              {signInFormik.status}
+            </Typography>
+          )}
+          <Grid container direction="column" spacing={2}>
+            <Grid item>
+              <Grid container style={{ marginTop: '2vh' }} spacing={2}>
+                <Grid item xs={12}>
+                  <TextField
+                    variant="outlined"
+                    type="email"
+                    label="Email"
+                    placeholder="email@example.com"
+                    margin="normal"
+                    className={classes.textInput}
+                    name="email"
+                    onBlur={signInFormik.handleBlur}
+                    onChange={signInFormik.handleChange}
+                    value={signInFormik.values.email}
+                    helperText={
+                      signInFormik.touched.email && signInFormik.errors.email
+                    }
+                    error={
+                      signInFormik.touched.email && !!signInFormik.errors.email
+                    }
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    className={classes.textInput}
+                    onBlur={signInFormik.handleBlur}
+                    onChange={signInFormik.handleChange}
+                    value={signInFormik.values.password}
+                    helperText={
+                      signInFormik.touched.password &&
+                      signInFormik.errors.password
+                    }
+                    error={
+                      signInFormik.touched.password &&
+                      !!signInFormik.errors.password
+                    }
+                    name="password"
+                    label="Password"
+                    placeholder="Password"
+                    variant="outlined"
+                    type="password"
+                    required
+                  />
+                </Grid>
               </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  className={classes.textInput}
-                  onBlur={signInFormik.handleBlur}
-                  onChange={signInFormik.handleChange}
-                  value={signInFormik.values.password}
-                  helperText={
-                    signInFormik.touched.password &&
-                    signInFormik.errors.password
-                  }
-                  error={
-                    signInFormik.touched.password &&
-                    !!signInFormik.errors.password
-                  }
-                  name="password"
-                  label="Password"
-                  placeholder="Password"
-                  variant="outlined"
-                  type="password"
-                  required
-                />
-              </Grid>
             </Grid>
-          </Grid>
-          <Grid item>
-            <Button className={classes.submitBtn} type="submit">
-              Sign In
-            </Button>
-            {loading && (
-              <span>
-                <CircularProgress />
-              </span>
-            )}
-          </Grid>
-          <Grid item container direction="column" spacing={2}>
             <Grid item>
-              <Button
-                onClick={signInWithFacebook}
-                id="facebook"
-                className={`img-circle facebook ${classes.fbBtn}`}
-              >
-                <span className="fa fa-facebook-f">Continue with Facebook</span>
+              <Button className={classes.submitBtn} type="submit">
+                Sign In
               </Button>
+              {loading && (
+                <span>
+                  <CircularProgress />
+                </span>
+              )}
             </Grid>
-            <Grid item>
-              <Button
-                onClick={signInWithGoogle}
-                id="google"
-                className={`img-circle google ${classes.googleBtn}`}
-              >
-                <span className="fa fa-google"> Continue with Google</span>
-              </Button>
-            </Grid>
-            <Grid item>
-              <Typography>
-                Don't have an account?
-                <Link
-                  className={classes.link}
-                  to="/auth/signup"
-                  style={{ margin: '1vh' }}
+            <Grid item container direction="column" spacing={2}>
+              <Grid item>
+                <Button
+                  onClick={signInWithFacebook}
+                  id="facebook"
+                  className={`img-circle facebook ${classes.fbBtn}`}
                 >
-                  Create a Profile
-                </Link>
-              </Typography>
-            </Grid>
-            <Grid item>
-              <Typography>
-                <Link className={classes.link} to="/auth/resetpass">
-                  Forgot Your Password?
-                </Link>
-              </Typography>
+                  <span className="fa fa-facebook-f">
+                    Continue with Facebook
+                  </span>
+                </Button>
+              </Grid>
+              <Grid item>
+                <Button
+                  onClick={signInWithGoogle}
+                  id="google"
+                  className={`img-circle google ${classes.googleBtn}`}
+                >
+                  <span className="fa fa-google"> Continue with Google</span>
+                </Button>
+              </Grid>
+              <Grid item>
+                <Typography>
+                  Don't have an account?
+                  <Link
+                    className={classes.link}
+                    to="/auth/signup"
+                    style={{ margin: '1vh' }}
+                  >
+                    Create a Profile
+                  </Link>
+                </Typography>
+              </Grid>
+              <Grid item>
+                <Typography>
+                  <Link className={classes.link} to="/auth/resetpass">
+                    Forgot Your Password?
+                  </Link>
+                </Typography>
+              </Grid>
             </Grid>
           </Grid>
-        </Grid>
-      </form>
-    </Paper>
+        </form>
+      </Paper>
+    </AuthIsLoaded>
   )
 }
 // Connect with signIn and fetchUser action

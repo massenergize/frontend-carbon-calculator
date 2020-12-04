@@ -1,155 +1,33 @@
 // React and redux import
-import React, { useEffect, useCallback, useState } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState } from 'react'
 // Styling imports
-import Grid from '@material-ui/core/Grid'
-import Paper from '@material-ui/core/Paper'
-import Typography from '@material-ui/core/Typography'
-import CircularProgress from '@material-ui/core/CircularProgress'
-import { makeStyles } from '@material-ui/core/styles'
+import { CircularProgress } from '@material-ui/core'
+import Component from '../../components/events/EventList'
 import { fetchEvents } from '../../actions'
 import { useSelectedState } from '../../context/SelectedContext'
 import { useEventState } from '../../context/EventContext'
+import useAsync from '../../hooks/useAsync'
 
-// Style defination
-const useStyle = makeStyles({
-  root: {
-    fontSize: '1vh',
-    padding: '1vh 1vh',
-    marginTop: 8,
-  },
-  event: {
-    fontSize: '1em',
-    margin: '1vh 1vh',
-    '& :hover': {
-      backgroundColor: '#f2f2f2',
-    },
-  },
-  link: {
-    textDecoration: 'none',
-  },
-  paperContainer: {
-    padding: '1vh',
-  },
-  month: {
-    fontSize: '1vh',
-  },
-  displayname: {
-    fontWeight: 'bold',
-    fontSize: '2.5em',
-    display: 'flex',
-  },
-  location: {
-    fontSize: '2.5em',
-  },
-  eventContent: {
-    margin: '0vh 4vh',
-  },
-})
 // EventList component
 const EventList = () => {
   const { eventState, setEventState } = useEventState()
   const { setSelected } = useSelectedState()
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState()
 
-  const getEvents = useCallback(async () => {
-    const response = await fetchEvents()
-    setEventState(response)
-    setLoading(true)
-  }, [setEventState])
+  useAsync({
+    setLoading,
+    setValue: setEventState,
+    setError,
+    func: fetchEvents,
+    getResKey: 'eventList',
+  })
 
-  // Fetch event information upon Mount and Update
-  useEffect(() => {
-    getEvents()
-  }, [getEvents, loading])
-
-  const classes = useStyle()
   // Rendering List of Events
-  const renderList = () =>
-    eventState.map(event => {
-      // Define dates and months for reformatting
-      const date = new Date(event.datetime)
-      const months = [
-        'Jan',
-        'Feb',
-        'Mar',
-        'Apr',
-        'May',
-        'Jun',
-        'Jul',
-        'Aug',
-        'Sep',
-        'Oct',
-        'Nov',
-        'Dec',
-      ]
-      return (
-        <React.Fragment key={event.name}>
-          <Grid item xs={12}>
-            <Link
-              className={classes.link}
-              to={`/event/${event.name}`}
-              onClick={() => setSelected(event)}
-            >
-              <Paper className={classes.paperContainer}>
-                <Grid container direction="row" spacing={2}>
-                  <Grid
-                    item
-                    xs={2}
-                    container
-                    direction="column"
-                    alignItems="center"
-                  >
-                    <Grid item>
-                      <Typography>{months[date.getMonth()]}</Typography>
-                    </Grid>
-                    <Grid item>
-                      <Typography variant="h5">{date.getDate()}</Typography>
-                    </Grid>
-                  </Grid>
-                  <Grid container item xs={9} direction="column" spacing={2}>
-                    <Grid item>
-                      <Typography variant="h5" className={classes.displayname}>
-                        {event.displayname}
-                      </Typography>
-                    </Grid>
-                    <Grid item>
-                      <Typography className={classes.location}>
-                        {event.location}
-                      </Typography>
-                    </Grid>
-                  </Grid>
-                </Grid>
-              </Paper>
-            </Link>
-          </Grid>
-        </React.Fragment>
-      )
-    })
-  if (!loading) return <CircularProgress />
+  if (!loading && !eventState) return <CircularProgress />
   // Main rendering function calling render list function
   return (
-    <Grid item xs={12}>
-      <Paper className={classes.root}>
-        <Grid container>
-          <Grid item>
-            <Typography
-              variant="h6"
-              style={{
-                margin: '1vh 1vh',
-                padding: '1vh 1vh',
-                fontWeight: 'bold',
-              }}
-            >
-              Upcoming Events
-            </Typography>
-          </Grid>
-          <Grid container item xs={12}>
-            {renderList()}
-          </Grid>
-        </Grid>
-      </Paper>
-    </Grid>
+    <Component events={eventState} error={error} setSelected={setSelected} />
   )
 }
 

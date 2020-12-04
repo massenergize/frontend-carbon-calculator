@@ -27,7 +27,6 @@ export const createUser = async (formValues, email, selected) => {
     groups,
     minimum_age,
     accepts_terms_and_conditions */
-  console.log(selected)
   const params = {
     ...formValues,
     email,

@@ -14,7 +14,6 @@ const useStyles = makeStyles({
 
 const SponsorInfo = ({ name, url, logo, contact, email, phone }) => {
   //const SponsorInfo = ({ sponsorLogo, sponsorName, sponsorUrl }) => {
-  console.log(name)
   const classes = useStyles()
   return (
     // Render Sponsor Info

@@ -9,39 +9,49 @@ import MyCard from '../Card'
 const useStyles = makeStyles({
   title: {
     fontWeight: 'bold',
-    color: '#fa4a21',
+    color: '#8dc63f',
   },
 })
 
-const HostInfo = ({ name, url, logo, contact, email, phone }) => {
+const OrganizationInfo = ({
+  title,
+  name,
+  url,
+  logo,
+  contact,
+  email,
+  phone,
+}) => {
   const classes = useStyles()
   return (
     <Grid item>
       <Grid item container>
-        <Typography
-          className={classes.title}
-          style={{ color: '#8dc63f' }}
-          variant="h5"
-        >
-          About the Host
+        <Typography className={classes.title} variant="h5">
+          {title}
         </Typography>
       </Grid>
       <Grid item container direction="column">
         <Grid item container direction="row">
           <MyCard title={name} image={logo.url} imageAlt={name} imageUrl={url}>
-            <Typography variant="h6" component="h2">
-              {contact}
-            </Typography>
-            <IconButton>
-              <a href={`mailto:${email}`}>
-                <EmailIcon />
-              </a>
-            </IconButton>
-            <IconButton>
-              <a href={`tel:${phone}`}>
-                <PhoneIcon />
-              </a>
-            </IconButton>
+            {contact && (
+              <Typography variant="h6" component="h2">
+                {contact}
+              </Typography>
+            )}
+            {email && (
+              <IconButton>
+                <a href={`mailto:${email}`}>
+                  <EmailIcon />
+                </a>
+              </IconButton>
+            )}
+            {phone && (
+              <IconButton>
+                <a href={`tel:${phone}`}>
+                  <PhoneIcon />
+                </a>
+              </IconButton>
+            )}
           </MyCard>
         </Grid>
       </Grid>
@@ -49,7 +59,8 @@ const HostInfo = ({ name, url, logo, contact, email, phone }) => {
   )
 }
 
-HostInfo.propTypes = {
+OrganizationInfo.propTypes = {
+  title: PropTypes.string,
   name: PropTypes.string,
   url: PropTypes.string,
   logo: PropTypes.object,
@@ -58,4 +69,4 @@ HostInfo.propTypes = {
   phone: PropTypes.string,
 }
 
-export default HostInfo
+export default OrganizationInfo

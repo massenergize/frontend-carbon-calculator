@@ -1,10 +1,9 @@
 import React from 'react'
 import { Grid, makeStyles, Paper } from '@material-ui/core'
-import HostInfo from './HostInfo'
-import SponsorInfo from './SponsorInfo'
 import Station from '../../pages/events/Stations'
 import Score from './Score'
 import { useSelectedState } from '../../context/SelectedContext'
+import OrganizationInfo from './OrganizationInfo'
 
 const useStyles = makeStyles({
   root: {
@@ -26,7 +25,7 @@ const EventItem = () => {
   const { selected } = useSelectedState()
   const classes = useStyles()
   // eslint-disable-next-line camelcase
-  const { host_org, sponsor_org } = selected
+  const { host_org, sponsor_org } = selected || {}
   return (
     <Paper className={classes.root}>
       <Grid container spacing={2}>
@@ -46,8 +45,9 @@ const EventItem = () => {
             className={classes.hostAndSponsorWrapper}
           >
             {/* eslint-disable-next-line camelcase */}
-            <HostInfo {...host_org} />
-            <SponsorInfo {...sponsor_org} />
+            <OrganizationInfo title="About the Host" {...host_org} />
+            {/* eslint-disable-next-line camelcase */}
+            <OrganizationInfo title="Sponsors" {...sponsor_org} />
           </Grid>
           <Grid item xs={12}>
             <Score />

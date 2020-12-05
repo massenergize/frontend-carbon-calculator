@@ -26,7 +26,7 @@ const EventItem = () => {
   const { selected } = useSelectedState()
   const classes = useStyles()
   // eslint-disable-next-line camelcase
-  const { host_org } = selected
+  const { host_org, sponsor_org } = selected
   return (
     <Paper className={classes.root}>
       <Grid container spacing={2}>
@@ -47,11 +47,7 @@ const EventItem = () => {
           >
             {/* eslint-disable-next-line camelcase */}
             <HostInfo {...host_org} />
-            <SponsorInfo
-              sponsorLogo={selected?.sponsor_logo}
-              sponsorName={selected?.sponsor_org}
-              sponsorUrl={selected?.sponsor_url}
-            />
+            <SponsorInfo {...sponsor_org} />
           </Grid>
           <Grid item xs={12}>
             <Score />

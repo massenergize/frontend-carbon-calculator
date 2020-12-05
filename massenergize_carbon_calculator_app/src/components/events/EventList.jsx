@@ -52,7 +52,7 @@ const useStyles = makeStyles({
     minHeight: '50px',
   },
   title: {
-    margin: '10px 30px',
+    margin: '10px 20px',
     fontWeight: 'bold',
     color: '#6cb8e5',
   },
@@ -104,7 +104,7 @@ const EventList = ({ events, setSelected }) => {
     <Container
       title={
         <Typography variant="h4" className={classes.title}>
-          Upcoming Event
+          Upcoming Events
         </Typography>
       }
     >

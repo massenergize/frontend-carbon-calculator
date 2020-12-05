@@ -5,10 +5,10 @@ import { Provider } from 'react-redux'
 import { createStore, applyMiddleware, compose } from 'redux'
 import thunk from 'redux-thunk'
 import { ReactReduxFirebaseProvider } from 'react-redux-firebase'
-import firebase from './components/auth/firebaseConfig'
+import firebase from './config/firebaseConfig'
 import App from './components/App'
-import { AuthProvider } from './components/context/AuthContext'
 import reducers from './reducers'
+import './style/index.css'
 
 // For redux devtools
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
@@ -25,9 +25,7 @@ ReactDOM.render(
       config={rrfConfig}
       dispatch={store.dispatch}
     >
-      <AuthProvider>
-        <App />
-      </AuthProvider>
+      <App />
     </ReactReduxFirebaseProvider>
   </Provider>,
   document.getElementById('root')

@@ -12,7 +12,8 @@ const useStyles = makeStyles({
   logoImg: { maxWidth: '100%' },
 })
 
-const SponsorInfo = ({ sponsorLogo, sponsorName, sponsorUrl }) => {
+const SponsorInfo = ({ name, url, logo, contact, email, phone }) => {
+  //const SponsorInfo = ({ sponsorLogo, sponsorName, sponsorUrl }) => {
   const classes = useStyles()
   return (
     // Render Sponsor Info
@@ -29,10 +30,10 @@ const SponsorInfo = ({ sponsorLogo, sponsorName, sponsorUrl }) => {
       <Grid item container direction="column">
         <Grid item container direction="row">
           <MyCard
-            title={sponsorName}
-            image={sponsorLogo}
-            imageUrl={sponsorUrl}
-            imageAlt={sponsorName}
+            title={name}
+            image={logo && logo.url}
+            imageUrl={url}
+            imageAlt={name}
           />
         </Grid>
       </Grid>
@@ -41,9 +42,12 @@ const SponsorInfo = ({ sponsorLogo, sponsorName, sponsorUrl }) => {
 }
 
 SponsorInfo.propTypes = {
-  sponsorLogo: PropTypes.string,
-  sponsorName: PropTypes.string,
-  sponsorUrl: PropTypes.string,
+  name: PropTypes.string,
+  url: PropTypes.string,
+  logo: PropTypes.object,
+  //sponsorLogo: PropTypes.string,
+  //sponsorName: PropTypes.string,
+  //sponsorUrl: PropTypes.string,
 }
 
 export default SponsorInfo

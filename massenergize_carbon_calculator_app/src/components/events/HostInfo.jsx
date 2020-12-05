@@ -28,8 +28,8 @@ const HostInfo = ({ name, url, logo, contact, email, phone }) => {
       </Grid>
       <Grid item container direction="column">
         <Grid item container direction="row">
-          <MyCard title={name} image={logo} imageAlt={name} imageUrl={url}>
-            <Typography variant="h5" component="h2">
+          <MyCard title={name} image={logo.url} imageAlt={name} imageUrl={url}>
+            <Typography variant="h6" component="h2">
               {contact}
             </Typography>
             <IconButton>
@@ -52,7 +52,7 @@ const HostInfo = ({ name, url, logo, contact, email, phone }) => {
 HostInfo.propTypes = {
   name: PropTypes.string,
   url: PropTypes.string,
-  logo: PropTypes.number,
+  logo: PropTypes.object,
   contact: PropTypes.string,
   email: PropTypes.string,
   phone: PropTypes.string,

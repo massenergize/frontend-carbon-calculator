@@ -12,7 +12,7 @@ import {
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import { useFormik } from 'formik'
-import { useFirebase, isLoaded } from 'react-redux-firebase'
+import { useFirebase } from 'react-redux-firebase'
 import { useSelector } from 'react-redux'
 import { useAuthState } from '../../context/AuthContext'
 import { facebookProvider, googleProvider } from '../../config/firebaseConfig'

@@ -13,7 +13,6 @@ import MenuIcon from '@material-ui/icons/Menu'
 import { startCase } from 'lodash'
 import AuthButton from './auth/AuthButton'
 import Link from './Link'
-import LoadingSpinner from './LoadingSpinner'
 import TemporaryLeftDrawer from './TemporaryLeftDrawer'
 
 // Styling classes definition

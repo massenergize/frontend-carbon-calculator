@@ -1,6 +1,6 @@
 // Functional component imports
 import React, { useState, useCallback, useEffect } from 'react'
-import { useHistory, useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import { isLoaded, useFirebase } from 'react-redux-firebase'
 import { useSelector } from 'react-redux'
 import { fetchUser } from '../actions'

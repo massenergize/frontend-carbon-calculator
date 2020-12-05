@@ -2,7 +2,6 @@
 import React from 'react'
 import { useFirebase } from 'react-redux-firebase'
 import { useFormik } from 'formik'
-import { Link } from 'react-router-dom'
 
 // Styling component import
 import {
@@ -14,6 +13,7 @@ import {
   CircularProgress,
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
+import EmailSent from '../../components/auth/EmailSent'
 
 // Styling classes
 const useStyle = makeStyles({
@@ -43,7 +43,7 @@ const ForgotPass = () => {
     firebase
       .auth()
       .sendPasswordResetEmail(usrEmail)
-      .then(function(user) {
+      .then(function() {
         // Alert user that email has been sent to their mailbox
         setLoading(false)
         setIsEmailSent(true)
@@ -85,39 +85,14 @@ const ForgotPass = () => {
   if (isEmailSent) {
     // Display text inform the user that email has been sent
     return (
-      <Paper className={classes.container}>
-        {resetPassFormik.status && (
-          <Typography className={classes.error}>
-            {resetPassFormik.status}
-          </Typography>
-        )}
-        <Typography>
-          We Have Sent You An Email. Please Check Your Inbox
-        </Typography>
-        <Grid container>
-          <Grid item xs={6}>
-            <Button
-              className={classes.submitBtn}
-              onClick={() => {
-                setLoading(true)
-                sendResetPasswordEmail(email)
-              }}
-            >
-              Resend Email
-            </Button>
-            {loading && (
-              <span>
-                <CircularProgress />
-              </span>
-            )}
-          </Grid>
-          <Grid item xs={6}>
-            <Link to="/auth" className={classes.link}>
-              <Button>Go To Sign In</Button>
-            </Link>
-          </Grid>
-        </Grid>
-      </Paper>
+      <EmailSent
+        status={resetPassFormik.status}
+        onClick={() => {
+          setLoading(true)
+          sendResetPasswordEmail(email)
+        }}
+        loading={loading}
+      />
     )
   }
   // If use has not enter their email, render auth form for user to enter email or continue with other options

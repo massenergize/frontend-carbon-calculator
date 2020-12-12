@@ -99,15 +99,7 @@ module.exports = {
         extensions: [".js", ".jsx"]
       }
     ],
-    "prettier/prettier": [
-      "error",
-      {
-        trailingComma: "es5",
-        singleQuote: true,
-        printWidth: 80,
-        endOfLine: "auto"
-      }
-    ],
+    "prettier/prettier": "error",
     "jsx-a11y/accessible-emoji": 0,
     "jsx-a11y/href-no-hash": "off",
     "jsx-a11y/anchor-is-valid": [

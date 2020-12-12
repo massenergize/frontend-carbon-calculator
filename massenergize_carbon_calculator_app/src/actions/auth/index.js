@@ -1,10 +1,10 @@
 import _ from 'lodash'
 import api from '../../api/massEnergize'
-import generateFormData from '../../utils/generateFormData'
+import objectToFormData from '../../utils/objectToFormData'
 
 export const fetchCCUser = async user => {
   const idToken = await user.getIdToken(true)
-  const formData = generateFormData({ data: { idToken } })
+  const formData = objectToFormData({ data: { idToken } })
   const userProfileResponse = await api.post(`/v3/auth.login`, formData, {
     headers: {
       'Content-Type': 'multipart/form-data',
@@ -24,7 +24,7 @@ export const fetchCCUser = async user => {
 }
 
 export const signOut = async () => {
-  const formData = generateFormData({})
+  const formData = objectToFormData({})
   await api.post(`/v3/auth.logout`, formData, {
     headers: {
       'Content-Type': 'multipart/form-data',

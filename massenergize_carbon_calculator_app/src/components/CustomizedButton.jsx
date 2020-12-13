@@ -4,35 +4,16 @@ import { Button } from '@material-ui/core'
 // Styled Button
 const CustomizedButton = withStyles({
   root: {
-    minWidth: '100px',
-    color: '#fff',
+    width: '100%',
+    color: '#67b6e4',
     boxShadow: 'none',
     textTransform: 'none',
     fontSize: 16,
     padding: '6px 12px',
-    border: '1px solid',
-    lineHeight: 1.5,
-    backgroundColor: '#8dc63f',
-    borderColor: '#8dc63f',
-    fontFamily: [
-      '-apple-system',
-      'BlinkMacSystemFont',
-      '"Segoe UI"',
-      'Roboto',
-      '"Helvetica Neue"',
-      'Arial',
-      'sans-serif',
-      '"Apple Color Emoji"',
-      '"Segoe UI Emoji"',
-      '"Segoe UI Symbol"',
-    ].join(','),
+    backgroundColor: 'transparent',
+    fontWeight: 'bold',
     '&:hover': {
-      backgroundColor: '#7aab37',
-      borderColor: '#6d9931',
-      boxShadow: 'none',
-    },
-    '&:focus': {
-      boxShadow: '0 0 0 0.2rem rgba(141, 198, 63, .5)',
+      textDecoration: 'underline',
     },
   },
 })(Button)

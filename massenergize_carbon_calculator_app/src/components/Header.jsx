@@ -14,6 +14,8 @@ import { startCase } from 'lodash'
 import AuthButton from './auth/AuthButton'
 import Link from './Link'
 import TemporaryLeftDrawer from './TemporaryLeftDrawer'
+import CustomizedButton from './CustomizedButton'
+import AuthIsLoaded from '../container/AuthIsLoadContainer'
 
 // Styling classes definition
 const useStyles = makeStyles({
@@ -26,24 +28,17 @@ const useStyles = makeStyles({
     borderBottom: '1px solid #cfcfcf',
   },
   nav: {
-    padding: '10px',
-    fontSize: '16px',
-    marginRight: '20px',
-    '&:hover': {
-      backgroundColor: '#f2f2f2',
+    '& > li': {
+      display: 'inline-block',
     },
   },
-  button: {
-    backgroundColor: 'inherit',
-    marginRight: 20,
-    '&:hover': {
-      backgroundColor: '#7aab37',
-      borderColor: '#6d9931',
-      boxShadow: 'none',
-      '& a': {
-        color: '#fff',
-      },
-    },
+  active: {
+    textDecoration: 'underline',
+    color: '#65B4E4',
+  },
+  navItem: {
+    padding: '10px',
+    marginRight: '20px',
   },
   logo: {
     '& img': {
@@ -52,13 +47,9 @@ const useStyles = makeStyles({
     '& img::hover': {
       opacity: 0.1,
     },
+    width: '80px',
+    height: '80px',
     margin: '1vh',
-  },
-  link: {
-    textDecoration: 'none',
-    color: '#8dc63f',
-    fontWeight: 'bold',
-    width: '100%',
   },
   headerTitle: {
     color: '#b2d9f1',
@@ -75,7 +66,7 @@ const useStyles = makeStyles({
 
 const Header = ({
   loading,
-  drawerRoutes,
+  routes,
   logoLink,
   onSignOut,
   signInNav,
@@ -114,25 +105,29 @@ const Header = ({
           </Typography>
           <div className={classes.rightPositioned}>
             <Hidden mdDown>
-              {drawerRoutes.map(route => (
-                <Link
-                  key={route}
-                  className={classes.nav}
-                  color="#67b6e4"
-                  fontWeight="bold"
-                  width="100%"
-                  route={route}
-                >
-                  {startCase(route)}
-                </Link>
-              ))}
-              {showLogin && (
-                <AuthButton
-                  signInNav={signInNav}
-                  loading={loading}
-                  onSignOut={onSignOut}
-                />
-              )}
+              <ul className={classes.nav}>
+                {routes.map(
+                  ({ path, name }) =>
+                    name && (
+                      <li key={path} className={classes.navItem}>
+                        <Link route={path} activeClassName={classes.active}>
+                          <CustomizedButton>{startCase(name)}</CustomizedButton>
+                        </Link>
+                      </li>
+                    ),
+                )}
+                {showLogin && (
+                  <li className={classes.navItem}>
+                    <AuthIsLoaded>
+                      <AuthButton
+                        signInNav={signInNav}
+                        loading={loading}
+                        onSignOut={onSignOut}
+                      />
+                    </AuthIsLoaded>
+                  </li>
+                )}
+              </ul>
             </Hidden>
           </div>
         </Toolbar>
@@ -143,7 +138,7 @@ const Header = ({
           onSignOut={onSignOut}
           isOpen={isDrawerOpen}
           toggleDrawer={toggleDrawer}
-          drawerRoutes={drawerRoutes}
+          routes={routes}
           showLogin={showLogin}
           loading={loading}
         />
@@ -156,7 +151,7 @@ Header.propTypes = {
   loading: PropTypes.bool,
   isDrawerOpen: PropTypes.bool,
   toggleDrawer: PropTypes.func,
-  drawerRoutes: PropTypes.arrayOf(PropTypes.string),
+  routes: PropTypes.array,
   logoLink: PropTypes.string,
   onSignOut: PropTypes.func,
   signInNav: PropTypes.func,

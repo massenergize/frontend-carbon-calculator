@@ -32,10 +32,10 @@ const NavList = ({ routes }) => {
   const classes = useStyles()
   return (
     <List>
-      {routes.map(route => (
-        <ListItem button key={route} className={classes.button}>
-          <Link color="#67b6e4" fontWeight="bold" width="100%" route={route}>
-            <ListItemText primary={startCase(route)} />
+      {routes.map(({ path, name }) => (
+        <ListItem button key={path} className={classes.button}>
+          <Link color="#67b6e4" fontWeight="bold" width="100%" route={path}>
+            <ListItemText primary={startCase(name)} />
           </Link>
         </ListItem>
       ))}

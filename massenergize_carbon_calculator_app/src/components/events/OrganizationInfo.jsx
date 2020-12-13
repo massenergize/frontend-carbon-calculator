@@ -32,7 +32,7 @@ const OrganizationInfo = ({
       </Grid>
       <Grid item container direction="column">
         <Grid item container direction="row">
-          <MyCard title={name} image={logo.url} imageAlt={name} imageUrl={url}>
+          <MyCard title={name} image={logo?.url} imageAlt={name} imageUrl={url}>
             {contact && (
               <Typography variant="h6" component="h2">
                 {contact}

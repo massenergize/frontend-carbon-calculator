@@ -98,7 +98,7 @@ EventRow.propTypes = {
   location: PropTypes.string,
 }
 
-const EventList = ({ events, setSelected }) => {
+const EventList = ({ events }) => {
   const classes = useStyles()
   return (
     <Container
@@ -117,7 +117,6 @@ const EventList = ({ events, setSelected }) => {
               <Link
                 className={`${classes.link} ${classes.event}`}
                 to={`/event/${event.name}`}
-                onClick={() => setSelected(event)}
               >
                 <EventRow
                   displayName={event.displayname}
@@ -136,7 +135,6 @@ const EventList = ({ events, setSelected }) => {
 
 EventList.propTypes = {
   events: PropTypes.array,
-  setSelected: PropTypes.func,
 }
 
 export default EventList

@@ -10,7 +10,7 @@ const AuthButton = ({ onSignOut, loading, signInNav, ...props }) => {
   if (loading) return <LoadingSpinner />
   return (
     <NavButton
-      href={!authState && '/auth/signin'}
+      href={!authState ? '/auth/signin' : null}
       onClick={onClickHandler}
       {...props}
     >

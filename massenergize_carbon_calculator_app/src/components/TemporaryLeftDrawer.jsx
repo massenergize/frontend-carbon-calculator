@@ -51,7 +51,7 @@ const TemporaryLeftDrawer = ({
 TemporaryLeftDrawer.propTypes = {
   toggleDrawer: PropTypes.func,
   isOpen: PropTypes.bool,
-  drawerRoutes: PropTypes.arrayOf(PropTypes.string),
+  drawerRoutes: PropTypes.array,
   showLogin: PropTypes.bool,
   loading: PropTypes.bool,
   signInNav: PropTypes.func,

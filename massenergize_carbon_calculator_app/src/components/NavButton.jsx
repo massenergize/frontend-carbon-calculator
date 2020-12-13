@@ -7,7 +7,6 @@ import CustomizedButton from './CustomizedButton'
 const useStyles = makeStyles({
   link: {
     textDecoration: 'none',
-    color: '#8dc63f',
     fontWeight: 'bold',
     width: '100%',
   },

@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/core/styles'
-import { Link } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 
 const useStyles = makeStyles({
   link: props => ({
@@ -10,16 +10,23 @@ const useStyles = makeStyles({
   }),
 })
 
-const LinkComponent = ({ route, className, children, ...stylesProps }) => {
+const LinkComponent = ({
+  route,
+  className,
+  children,
+  activeClassName,
+  ...stylesProps
+}) => {
   const classes = useStyles(stylesProps)
 
   return (
-    <Link
-      to={`/${route === 'home' ? '' : route}`}
+    <NavLink
+      to={`${route === 'home' ? '' : route}`}
       className={`${classes.link} ${className}`}
+      activeClassName={activeClassName}
     >
       {children}
-    </Link>
+    </NavLink>
   )
 }
 
@@ -27,6 +34,7 @@ LinkComponent.propTypes = {
   route: PropTypes.string,
   children: PropTypes.any,
   className: PropTypes.any,
+  activeClassName: PropTypes.any,
 }
 
 export default LinkComponent

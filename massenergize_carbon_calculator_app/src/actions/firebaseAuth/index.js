@@ -64,3 +64,18 @@ export const normalSignIn = (
       onError(err)
     })
 }
+
+export const firebaseSignUp = (
+  { email, password },
+  { onAuthSucess, onError },
+) => {
+  firebase
+    .auth()
+    .createUserWithEmailAndPassword(email, password)
+    .then(async res => {
+      await onAuthSucess(res)
+    })
+    .catch(err => {
+      onError(err)
+    })
+}

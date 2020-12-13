@@ -22,4 +22,14 @@ export default [
       .required('Password is required'),
     initialValue: '',
   },
+  {
+    label: 'Confirm Password',
+    name: 'confirmpass',
+    Component: TextField,
+    type: 'password',
+    validator: yup
+      .string('Confirm your password')
+      .required('Password is required'),
+    initialValue: '',
+  },
 ]

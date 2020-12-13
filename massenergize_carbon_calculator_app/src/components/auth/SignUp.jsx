@@ -2,8 +2,8 @@ import React from 'react'
 import { Paper, Grid } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import Form from './AuthForm'
-import OAuthOptions from './OAuthOptions'
 import ForgotPassButton from './ForgotPassButton'
+import OAuthOptions from './OAuthOptions'
 
 const useStyles = makeStyles({
   container: {
@@ -16,14 +16,17 @@ const useStyles = makeStyles({
   },
 })
 
-const SignIn = props => {
+const SignUp = props => {
   const classes = useStyles()
   return (
     <Paper className={classes.container}>
       <Form
-        title="Please Enter Your Email and Password to Continue"
-        submitButtonText="Sign In"
-        otherAuthOption={{ link: '/auth/signup', text: 'Create a profile' }}
+        title="Create Profile"
+        submitButtonText="Sign Up"
+        otherAuthOption={{
+          link: '/auth/signin',
+          text: 'Already have a profile',
+        }}
         ForgotPassButton={ForgotPassButton}
         {...props}
       />
@@ -36,4 +39,4 @@ const SignIn = props => {
   )
 }
 
-export default SignIn
+export default SignUp

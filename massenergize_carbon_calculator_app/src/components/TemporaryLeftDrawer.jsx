@@ -15,7 +15,7 @@ const useStyles = makeStyles({
 const TemporaryLeftDrawer = ({
   toggleDrawer,
   isOpen,
-  drawerRoutes,
+  routes,
   showLogin,
   loading,
   signInNav,
@@ -35,7 +35,7 @@ const TemporaryLeftDrawer = ({
         onClick={toggleDrawer(false)}
         onKeyDown={toggleDrawer(false)}
       >
-        <NavList routes={drawerRoutes} toggleDrawer={toggleDrawer} />
+        <NavList routes={routes} toggleDrawer={toggleDrawer} />
         <ListItem>
           {showLogin && loading ? (
             <LoadingSpinner />
@@ -51,7 +51,7 @@ const TemporaryLeftDrawer = ({
 TemporaryLeftDrawer.propTypes = {
   toggleDrawer: PropTypes.func,
   isOpen: PropTypes.bool,
-  drawerRoutes: PropTypes.array,
+  routes: PropTypes.array,
   showLogin: PropTypes.bool,
   loading: PropTypes.bool,
   signInNav: PropTypes.func,

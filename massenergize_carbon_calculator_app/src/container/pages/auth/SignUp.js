@@ -255,7 +255,7 @@ const SignUpPage = () => {
           </Grid>
           <Grid item>
             <Button className={classes.submitBtn} type="submit">
-              Sign In
+              Sign Up
             </Button>
             {loading && (
               <span>
@@ -264,7 +264,9 @@ const SignUpPage = () => {
             )}
           </Grid>
           <Grid item container direction="column" spacing={2}>
-            <OAuthOptions />
+            {['google', 'facebook'].map(provider => (
+              <OAuthOptions providerName={provider} />
+            ))}
             <Grid item>
               <Typography>
                 Already Have an Account?

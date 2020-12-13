@@ -4,17 +4,17 @@ import { useFormik } from 'formik'
 import Component from '../components/Form'
 
 const Form = ({
-  Fields,
+  FieldsComponent,
   initialValues,
   onSubmit,
-  validateSchema,
+  validationSchema,
   error,
   ...rest
 }) => {
   const FormFormik = useFormik({
     initialValues,
     onSubmit,
-    validateSchema,
+    validationSchema,
   })
   return (
     <Component
@@ -22,7 +22,7 @@ const Form = ({
       onSubmit={FormFormik.handleSubmit}
       {...rest}
     >
-      <Fields formik={FormFormik} />
+      <FieldsComponent {...FormFormik} />
     </Component>
   )
 }
@@ -31,8 +31,8 @@ Form.propTypes = {
   title: PropTypes.string,
   initialValues: PropTypes.object,
   onSubmit: PropTypes.func,
-  validateSchema: PropTypes.any,
-  Fields: PropTypes.any,
+  validationSchema: PropTypes.any,
+  FieldsComponent: PropTypes.any,
   error: PropTypes.any,
   loading: PropTypes.bool,
 }

@@ -16,7 +16,7 @@ const AuthPage = () => {
     <Switch>
       <Route path={`${path}/signin`} component={SignIn} />
       <Route path={`${path}/signup`} component={SignUp} />
-      <Route path={`${path}/resetpass`} component={ForgotPass} />
+      <Route path={`${path}/forgotpass`} component={ForgotPass} />
       <Route path={`${path}/emailsent`} component={EmailSent} />
       <Redirect to={`${path}/signin`} />
     </Switch>

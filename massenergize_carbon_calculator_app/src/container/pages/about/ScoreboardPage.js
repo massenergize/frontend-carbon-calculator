@@ -7,8 +7,7 @@ const ScoreCategoryRow = ({ category }) => (
   </tr>
 )
 
-const ScoreRow = ({ score }) => {
-  const { members, name, points } = score
+const ScoreRow = ({ score: { members, name, points } }) => {
   const scoreName =
     members > 0 ? name : <span style={{ color: 'red' }}>{name}</span>
 

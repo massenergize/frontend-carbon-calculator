@@ -1,25 +1,32 @@
-import AboutPage from '../pages/about/AboutPage'
-import AuthPage from '../pages/auth/AuthPage'
-import EventList from '../pages/events/EventList'
-import ScoreBoardPage from '../pages/about/ScoreboardPage'
-import SummaryPage from '../pages/about/SummaryPage'
-import HomePage from '../pages/HomePage'
+import AuthPage from '../container/pages/auth/AuthPage'
+import EventList from '../container/pages/events/EventList'
+import EventItem from '../container/pages/events/EventItem'
+import ScoreBoardPage from '../container/pages/about/ScoreboardPage'
+import SummaryPage from '../container/pages/about/SummaryPage'
+import AboutPage from '../container/pages/about/AboutPage'
+import HomePage from '../container/pages/about/HomePage'
 
 export default [
   {
     path: '/',
-    Component: EventList,
+    Component: HomePage,
     isExact: true,
   },
   {
     path: '/about',
     Component: AboutPage,
+    name: 'About Mass Energize',
   },
-  { path: '/summary', Component: SummaryPage },
-  { path: '/scoreboard', Component: ScoreBoardPage },
+  {
+    path: '/events',
+    name: 'Events',
+    Component: EventList,
+  },
+  { path: '/summary', name: 'Summary', Component: SummaryPage },
+  { path: '/scoreboard', name: 'Scoreboard', Component: ScoreBoardPage },
   { path: '/auth', Component: AuthPage },
   {
     path: '/event/:id',
-    Component: HomePage,
+    Component: EventItem,
   },
 ]

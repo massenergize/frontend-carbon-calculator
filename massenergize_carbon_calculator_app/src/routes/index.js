@@ -1,5 +1,6 @@
 import React from 'react'
 import { Switch, Route, withRouter } from 'react-router-dom'
+import BasePage from '../components/BasePage'
 import routes from './routes'
 
 export const Routes = withRouter(() => (
@@ -9,7 +10,11 @@ export const Routes = withRouter(() => (
         key={path}
         path={path}
         exact={isExact}
-        render={() => <Component />}
+        render={props => (
+          <BasePage routes={routes}>
+            <Component {...props} />
+          </BasePage>
+        )}
       />
     ))}
     <Route path="*" render={() => <div>404</div>} />

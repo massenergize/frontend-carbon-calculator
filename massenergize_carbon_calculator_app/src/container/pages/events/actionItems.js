@@ -16,11 +16,11 @@ import {
 import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
 import QList from './QList'
-import { getScore, unpostScore, postScore } from '../../actions'
-import { useScoreState } from '../../context/ScoreContext'
-import { useAnsweredState } from '../../context/AnsweredContext'
-import { useSkipState } from '../../context/SkipContext'
-import { useAuthState } from '../../context/AuthContext'
+import { getScore, unpostScore, postScore } from '../../../actions'
+import { useScoreState } from '../../../context/ScoreContext'
+import { useAnsweredState } from '../../../context/AnsweredContext'
+import { useSkipState } from '../../../context/SkipContext'
+import { useAuthState } from '../../../context/AuthContext'
 
 // TODO: Add What's it worth button next to I'll Do It to display how much user's answer worth before saving it to database
 const ActionItems = props => {
@@ -106,7 +106,7 @@ const ActionItems = props => {
           <React.Fragment key={`${action.name}${question.name}`}>
             <QList actionName={action.name} question={question} />
           </React.Fragment>
-        )
+        ),
     )
 
   // Render points to screen

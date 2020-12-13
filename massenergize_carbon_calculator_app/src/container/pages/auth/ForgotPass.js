@@ -13,7 +13,7 @@ import {
   CircularProgress,
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
-import EmailSent from '../../components/auth/EmailSent'
+import EmailSent from '../../../components/auth/EmailSent'
 
 // Styling classes
 const useStyle = makeStyles({

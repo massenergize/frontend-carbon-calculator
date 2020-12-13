@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react'
-import { Link, Redirect } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useFormik } from 'formik'
 import { useFirebase } from 'react-redux-firebase'
 import _ from 'lodash'
@@ -17,10 +17,10 @@ import {
   FormLabel,
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
-import { fetchUser, fetchGroups, createUser } from '../../actions'
-import { useSelectedState } from '../../context/SelectedContext'
-import { useGroupState } from '../../context/GroupContext'
-import { useAuthState } from '../../context/AuthContext'
+import { fetchCCUser, fetchGroups, createUser } from '../../../actions'
+import { useSelectedState } from '../../../context/SelectedContext'
+import { useGroupState } from '../../../context/GroupContext'
+import { useAuthState } from '../../../context/AuthContext'
 
 const useStyles = makeStyles({
   textInput: { width: '100%' },
@@ -30,7 +30,7 @@ const useStyles = makeStyles({
 
 const BasicInfo = () => {
   const { selected } = useSelectedState()
-  const { authState, setAuthState } = useAuthState()
+  const { setAuthState } = useAuthState()
   const { groupState, setGroupState } = useGroupState()
 
   const classes = useStyles()
@@ -62,7 +62,7 @@ const BasicInfo = () => {
     const email = _.get(auth, 'currentUser.email')
     const status = await createUser({ ...formValues, groups }, email, selected)
     if (status.success) {
-      const newUser = await fetchUser(auth.currentUser)
+      const newUser = await fetchCCUser(auth.currentUser)
       setAuthState(newUser)
     }
   }
@@ -111,9 +111,6 @@ const BasicInfo = () => {
     },
   })
   if (loading) return <CircularProgress />
-  if (authState) {
-    return <Redirect to={`/event/${selected.name}`} />
-  }
   return (
     <Paper className={classes.container}>
       <Typography variant="h3">Create Profile</Typography>

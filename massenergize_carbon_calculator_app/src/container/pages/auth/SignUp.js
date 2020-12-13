@@ -14,11 +14,15 @@ import {
   CircularProgress,
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
-import { facebookProvider, googleProvider } from '../../config/firebaseConfig'
+import {
+  facebookProvider,
+  googleProvider,
+} from '../../../config/firebaseConfig'
 import BasicInfo from './BasicInfo'
-import { useSelectedState } from '../../context/SelectedContext'
-import { useAuthState } from '../../context/AuthContext'
-import LoadingSpinner from '../../components/LoadingSpinner'
+import { useAuthState } from '../../../context/AuthContext'
+import LoadingSpinner from '../../../components/LoadingSpinner'
+import { sendEmailVerification } from '../../../actions/firebaseAuth'
+import OAuthOptions from '../../../components/auth/OAuthOptions'
 
 // Styling classes
 const useStyles = makeStyles({
@@ -57,13 +61,6 @@ const SignUpPage = () => {
   const classes = useStyles()
   const auth = useSelector(state => state.firebase.auth)
   const { authState } = useAuthState()
-  const { selected } = useSelectedState()
-
-  // Send user verification email
-  const sendVerificationEmail = () => {
-    setLoading(true)
-    auth.currentUser.sendEmailVerification().then(() => setLoading(false))
-  }
 
   // On Submit Handler
   const signUp = formValues => {
@@ -71,8 +68,8 @@ const SignUpPage = () => {
       .auth()
       .createUserWithEmailAndPassword(formValues.email, formValues.passwordOne)
       .then(() => {
-        // Send Verification Email
-        sendVerificationEmail()
+        // eslint-disable-next-line no-use-before-define
+        sendEmailVerification({ setLoading, setError: signUpFormik.setStatus })
       })
       .catch(err => {
         setLoading(false)
@@ -130,8 +127,11 @@ const SignUpPage = () => {
           .auth()
           .signInWithPopup(googleProvider)
           .then(() => {
-            // Save user information to backend database
-            sendVerificationEmail()
+            // eslint-disable-next-line no-use-before-define
+            sendEmailVerification({
+              setLoading,
+              setError: signUpFormik.setStatus,
+            })
           })
           .catch(err => {
             setLoading(false)
@@ -150,8 +150,11 @@ const SignUpPage = () => {
           .auth()
           .signInWithPopup(facebookProvider)
           .then(() => {
-            // Save user information to backend database
-            sendVerificationEmail()
+            // eslint-disable-next-line no-use-before-define
+            sendEmailVerification({
+              setLoading,
+              setError: signUpFormik.setStatus,
+            })
           })
           .catch(err => {
             setLoading(false)
@@ -165,41 +168,12 @@ const SignUpPage = () => {
   // Check if user has enter email and password to display message inform he/she of email coming to inbox
   // Allow resend email
   if (!authState && !isEmpty(auth) && !auth.emailVerified) {
-    return (
-      <Paper className={classes.container} style={{ padding: '2vh' }}>
-        <Grid container>
-          <Grid item>
-            <Typography>
-              We sent a link to your email address. Please verify your email to
-              continue.
-            </Typography>
-          </Grid>
-          <Grid item container>
-            <Grid item xs={6}>
-              <Button onClick={sendVerificationEmail}>
-                Resend Verification Email
-              </Button>
-              {loading && (
-                <span>
-                  <CircularProgress />
-                </span>
-              )}
-            </Grid>
-            <Grid item xs={6}>
-              <Link to="/auth" className={classes.link}>
-                <Button>Go To Sign In</Button>
-              </Link>
-            </Grid>
-          </Grid>
-        </Grid>
-      </Paper>
-    )
+    return <Redirect to="/auth/emailsent" />
   }
 
   if (!authState && !isEmpty(auth) && auth.emailVerified) {
     return <BasicInfo />
   }
-  if (authState) return <Redirect to={`/event/${selected.name}`} />
   // Prompt user enter authentication info
   return (
     <Paper className={classes.container}>
@@ -290,24 +264,7 @@ const SignUpPage = () => {
             )}
           </Grid>
           <Grid item container direction="column" spacing={2}>
-            <Grid item>
-              <Button
-                onClick={signInWithFacebook}
-                id="facebook"
-                className={`img-circle facebook ${classes.fbBtn}`}
-              >
-                <span className="fa fa-facebook-f">Continue with Facebook</span>
-              </Button>
-            </Grid>
-            <Grid item>
-              <Button
-                onClick={signInWithGoogle}
-                id="google"
-                className={`img-circle google ${classes.googleBtn}`}
-              >
-                <span className="fa fa-google"> Continue with Google</span>
-              </Button>
-            </Grid>
+            <OAuthOptions />
             <Grid item>
               <Typography>
                 Already Have an Account?

@@ -12,8 +12,8 @@ import List from '@material-ui/core/List'
 import ListItemText from '@material-ui/core/ListItemText'
 import Grid from '@material-ui/core/Grid'
 import { makeStyles } from '@material-ui/core/styles'
-import { useSkipState } from '../../context/SkipContext'
-import { useAnsweredState } from '../../context/AnsweredContext'
+import { useSkipState } from '../../../context/SkipContext'
+import { useAnsweredState } from '../../../context/AnsweredContext'
 
 const useStyle = makeStyles({
   textField: {
@@ -45,7 +45,7 @@ const QList = props => {
         if (answers[e.target.value].skip && prevAnsSkipArr.skip) {
           setSkipState([
             ...skipState.filter(
-              skipQName => !prevAnsSkipArr.skip.includes(skipQName)
+              skipQName => !prevAnsSkipArr.skip.includes(skipQName),
             ),
             ...answers[e.target.value].skip,
           ])
@@ -60,8 +60,8 @@ const QList = props => {
           // remove prev's skip from skipState
           setSkipState(
             skipState.filter(
-              skipQName => !prevAnsSkipArr.skip.includes(skipQName)
-            )
+              skipQName => !prevAnsSkipArr.skip.includes(skipQName),
+            ),
           )
         }
         // Do nothing if both doesn't have skip
@@ -156,7 +156,7 @@ QList.propTypes = {
     responses: PropType.arrayOf(
       PropType.shape({
         text: PropType.string,
-      })
+      }),
     ),
   }),
   actionName: PropType.string,

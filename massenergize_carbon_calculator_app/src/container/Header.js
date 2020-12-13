@@ -1,14 +1,15 @@
 // Functional component imports
 import React, { useState, useCallback, useEffect } from 'react'
+import PropTypes from 'prop-types'
 import { useLocation } from 'react-router-dom'
-import { isLoaded, useFirebase } from 'react-redux-firebase'
+import { useFirebase } from 'react-redux-firebase'
 import { useSelector } from 'react-redux'
-import { fetchUser } from '../actions'
+import { fetchCCUser, signOut } from '../actions'
 import { useAuthState } from '../context/AuthContext'
 import HeaderComponent from '../components/Header'
 
 // Header Component
-function Header() {
+function Header({ routes }) {
   const [loading, setLoading] = useState(true)
   const [isOpen, setIsOpen] = useState(false)
 
@@ -21,38 +22,30 @@ function Header() {
   const { setAuthState } = useAuthState()
   const firebase = useFirebase()
   const auth = useSelector(state => state.auth)
+  const user = firebase.auth().currentUser
 
-  const getUser = useCallback(
-    async user => {
-      const apiUser = await fetchUser(user)
-      setAuthState(apiUser)
-      setLoading(false)
-    },
-    [setAuthState]
-  )
+  const getUser = useCallback(async () => {
+    const apiUser = await fetchCCUser(user)
+    setAuthState(apiUser)
+    setLoading(false)
+  }, [setAuthState, user])
 
   useEffect(() => {
-    if (isLoaded(auth) && auth) {
-      getUser(auth)
-    }
-    firebase.auth().onAuthStateChanged(user => {
-      if (!user) {
-        setAuthState(user)
-        setLoading(false)
-      } else {
+    firebase.auth().onAuthStateChanged(() => {
+      if (user && user.emailVerified) {
         getUser(user)
+      } else {
+        setAuthState()
+        setLoading(false)
       }
     })
-  }, [auth, firebase, getUser, loading, setAuthState])
+  }, [auth, firebase, getUser, loading, setAuthState, user])
 
   // Handling user sign out
   const onSignOut = () => {
-    firebase
-      .auth()
-      .signOut()
-      .then(() => {
-        setAuthState()
-      })
+    signOut()
+    setAuthState(null)
+    firebase.auth().signOut()
   }
 
   return (
@@ -61,7 +54,7 @@ function Header() {
       title="Carbon Saver"
       logoLink=""
       onSignOut={onSignOut}
-      drawerRoutes={['home', 'summary', 'scoreboard', 'about']}
+      routes={routes}
       isDrawerOpen={isOpen}
       toggleDrawer={toggleDrawer}
       showLogin={!location.pathname.includes('/auth')}
@@ -69,4 +62,7 @@ function Header() {
   )
 }
 // Connect actions to component and export it
+Header.propTypes = {
+  routes: PropTypes.array,
+}
 export default Header

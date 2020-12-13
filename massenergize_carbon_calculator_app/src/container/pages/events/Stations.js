@@ -14,7 +14,7 @@ import ScheduleIcon from '@material-ui/icons/Schedule'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import Paper from '@material-ui/core/Paper'
 import ActionItems from './actionItems'
-import { useSelectedState } from '../../context/SelectedContext'
+import { useSelectedState } from '../../../context/SelectedContext'
 
 const useStyles = makeStyles(theme => ({
   rootHorizontal: {
@@ -129,7 +129,7 @@ const Stations = () => {
   }
 
   const renderActionList = (actions, station) =>
-    actions.map(action => (
+    actions?.map(action => (
       <ActionItems
         key={`${action.name}${station}`}
         action={action}
@@ -180,7 +180,7 @@ const Stations = () => {
       </Tabs>
       <TabPanel
         className={tablet ? classes.station : null}
-        key={stations[0].name}
+        key={stations?.[0].name}
         value={value}
         index={0}
       >
@@ -242,8 +242,8 @@ const Stations = () => {
               </Grid>
             </Grid>
           </Grid>
-          <Typography variant="h6">{stations[0].description}</Typography>
-          {renderActionList(stations[0].actions, stations[0].name)}
+          <Typography variant="h6">{stations?.[0].description}</Typography>
+          {renderActionList(stations?.[0].actions, stations?.[0].name)}
         </Paper>
       </TabPanel>
       {renderStationItemList()}
@@ -257,7 +257,7 @@ Stations.propTypes = {
       actions: PropType.array,
       name: PropType.string,
       description: PropType.string,
-    })
+    }),
   ),
   event: PropType.shape({
     location: PropType.string,

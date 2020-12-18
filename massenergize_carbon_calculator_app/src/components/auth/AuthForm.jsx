@@ -17,37 +17,45 @@ const useStyles = makeStyles({
   },
 })
 
-const AuthForm = ({ fields, ForgotPassButton, ...restProps }) => {
+const FieldsComponent = ({
+  fields,
+  values,
+  handleBlur,
+  handleChange,
+  errors,
+  touched,
+  className,
+}) =>
+  fields.map(({ type, label, name, Component, placeholder }) => (
+    <Grid key={name} item xs={12}>
+      <Component
+        className={className}
+        variant="outlined"
+        name={name}
+        value={values[name]}
+        placeholder={placeholder}
+        label={label}
+        type={type}
+        onChange={handleChange}
+        onBlur={handleBlur}
+        error={touched[name] && Boolean(errors[name])}
+        helperText={touched[name] && errors[name]}
+      />
+    </Grid>
+  ))
+
+const AuthForm = ({ fields, component, ForgotPassButton, ...restProps }) => {
   const classes = useStyles()
+  const Fields = fields ? FieldsComponent : component
   return (
     <Form
-      FieldsComponent={({
-        values,
-        handleBlur,
-        handleChange,
-        errors,
-        touched,
-      }) => (
+      FieldsComponent={formProps => (
         <Grid className={classes.fieldContainer} container spacing={2}>
-          {fields.map(
-            ({ type, label, name, Component: FieldComponent, placeholder }) => (
-              <Grid key={name} item xs={12}>
-                <FieldComponent
-                  className={classes.textInput}
-                  variant="outlined"
-                  name={name}
-                  value={values[name]}
-                  placeholder={placeholder}
-                  label={label}
-                  type={type}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  error={touched.password && Boolean(errors.password)}
-                  helperText={touched[name] && errors[name]}
-                />
-              </Grid>
-            ),
-          )}
+          <Fields
+            className={classes.textInput}
+            fields={fields}
+            {...formProps}
+          />
           {ForgotPassButton && (
             <ForgotPassButton className={classes.forgotPassButton} />
           )}
@@ -62,6 +70,7 @@ AuthForm.propTypes = {
   isSignIn: PropTypes.bool,
   fields: PropTypes.array,
   ForgotPassButton: PropTypes.any,
+  component: PropTypes.any,
 }
 
 export default AuthForm

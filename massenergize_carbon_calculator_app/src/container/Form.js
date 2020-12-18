@@ -8,6 +8,7 @@ const Form = ({
   initialValues,
   onSubmit,
   validationSchema,
+  validate,
   error,
   ...rest
 }) => {
@@ -15,6 +16,7 @@ const Form = ({
     initialValues,
     onSubmit,
     validationSchema,
+    validate,
   })
   return (
     <Component
@@ -35,6 +37,7 @@ Form.propTypes = {
   FieldsComponent: PropTypes.any,
   error: PropTypes.any,
   loading: PropTypes.bool,
+  validate: PropTypes.func,
 }
 
 export default Form

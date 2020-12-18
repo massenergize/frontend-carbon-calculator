@@ -79,3 +79,18 @@ export const firebaseSignUp = (
       onError(err)
     })
 }
+
+export const sendResetPasswordEmail = (
+  { email },
+  { onEmailSentSuccess, onError },
+) => {
+  firebase
+    .auth()
+    .sendPasswordResetEmail(email)
+    .then(function() {
+      onEmailSentSuccess()
+    })
+    .catch(function(error) {
+      onError(error)
+    })
+}

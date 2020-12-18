@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { SCORES as scores } from '../../../mock/testScore'
 
 const ScoreCategoryRow = ({ category }) => (
@@ -6,6 +7,10 @@ const ScoreCategoryRow = ({ category }) => (
     <th colSpan="3">{category}</th>
   </tr>
 )
+
+ScoreCategoryRow.propTypes = {
+  category: PropTypes.string,
+}
 
 const ScoreRow = ({ score: { members, name, points } }) => {
   const scoreName =
@@ -18,6 +23,14 @@ const ScoreRow = ({ score: { members, name, points } }) => {
       <td>{members}</td>
     </tr>
   )
+}
+
+ScoreRow.propTypes = {
+  score: PropTypes.shape({
+    members: PropTypes.string,
+    name: PropTypes.string,
+    points: PropTypes.number,
+  }),
 }
 
 const ScoreBoardPage = () => {

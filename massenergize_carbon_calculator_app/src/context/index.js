@@ -8,21 +8,16 @@ import { SelectedProvider } from './SelectedContext'
 import { SkipProvider } from './SkipContext'
 import { GroupProvider } from './GroupContext'
 
-const ContextWrapper = ({ children }) => (
-  <AnsweredProvider>
-    <AuthProvider>
-      <EventProvider>
-        <ScoreProvider>
-          <SelectedProvider>
-            <GroupProvider>
-              <SkipProvider>{children}</SkipProvider>
-            </GroupProvider>
-          </SelectedProvider>
-        </ScoreProvider>
-      </EventProvider>
-    </AuthProvider>
-  </AnsweredProvider>
-)
+const ContextWrapper = ({ children }) =>
+  [
+    AnsweredProvider,
+    AuthProvider,
+    EventProvider,
+    ScoreProvider,
+    SelectedProvider,
+    GroupProvider,
+    SkipProvider,
+  ].reduce((component, Context) => <Context>{component}</Context>, children)
 
 ContextWrapper.propTypes = {
   children: PropTypes.any,

@@ -14,12 +14,17 @@ const useStyles = makeStyles({
   },
 })
 
-const Container = ({ children, wrapperClassName, title }) => {
+const Container = ({
+  children,
+  titleWrapperClassName,
+  wrapperClassName,
+  title,
+}) => {
   const classes = useStyles()
   return (
     <MUContainer maxWidth="lg" className={classes.root}>
       <Grid container className={`${classes.container} ${wrapperClassName}`}>
-        <Grid item>{title}</Grid>
+        <div className={titleWrapperClassName}>{title}</div>
         <Grid container item xs={12}>
           {children}
         </Grid>
@@ -30,6 +35,7 @@ const Container = ({ children, wrapperClassName, title }) => {
 
 Container.propTypes = {
   children: PropTypes.node,
+  titleWrapperClassName: PropTypes.any,
   wrapperClassName: PropTypes.any,
   title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
 }

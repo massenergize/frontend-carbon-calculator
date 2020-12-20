@@ -10,7 +10,6 @@ import BasicInfo from './BasicInfo'
 import { useAuthState } from '../../../context/AuthContext'
 import { firebaseSignUp } from '../../../actions/firebaseAuth'
 import { signUpFields as fields } from '../../fields'
-import AuthIsLoaded from '../../AuthIsLoadContainer'
 import { fetchCCUser } from '../../../actions'
 
 const SignUpPage = () => {
@@ -62,11 +61,7 @@ const SignUpPage = () => {
     return <Redirect to="/auth/emailsent" />
   }
   if (!authState && !isEmpty(auth) && auth.emailVerified) {
-    return (
-      <AuthIsLoaded>
-        <BasicInfo />
-      </AuthIsLoaded>
-    )
+    return <BasicInfo />
   }
   // Prompt user enter authentication info
   return (

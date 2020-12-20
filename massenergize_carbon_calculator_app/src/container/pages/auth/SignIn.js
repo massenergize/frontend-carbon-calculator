@@ -1,11 +1,8 @@
 // Functional components import
 import React, { useState } from 'react'
-import { Redirect } from 'react-router-dom'
-import { useSelector } from 'react-redux'
 import { object } from 'yup'
 import { fetchCCUser } from '../../../actions'
 import BasicInfo from './BasicInfo'
-import AuthIsLoaded from '../../AuthIsLoadContainer'
 import { useAuthState } from '../../../context/AuthContext'
 import { normalSignIn } from '../../../actions/firebaseAuth'
 import Component from '../../../components/auth/SignIn'
@@ -16,7 +13,6 @@ const LogInForm = () => {
   const [error, setError] = useState()
   const [isFinishSignUp, setIsFinishSignUp] = useState(false)
 
-  const firebaseAuth = useSelector(({ firebase: { auth } }) => auth)
   const { setAuthState } = useAuthState()
 
   const onSignIn = async authRes => {
@@ -58,14 +54,8 @@ const LogInForm = () => {
     {},
   )
 
-  if (!firebaseAuth.isEmpty && !firebaseAuth.emailVerified)
-    return <Redirect to="/auth/emailsent" />
   if (isFinishSignUp) {
-    return (
-      <AuthIsLoaded>
-        <BasicInfo />
-      </AuthIsLoaded>
-    )
+    return <BasicInfo />
   }
   // Render Auth Form for user sign in with other options print out
   return (

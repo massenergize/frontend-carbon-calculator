@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux'
 import { fetchCCUser, signOut } from '../actions'
 import { useAuthState } from '../context/AuthContext'
 import HeaderComponent from '../components/Header'
+import { firebaseAuth } from '../config/firebaseConfig'
 
 // Header Component
 function Header({ routes }) {
@@ -22,7 +23,7 @@ function Header({ routes }) {
   const { setAuthState } = useAuthState()
   const firebase = useFirebase()
   const auth = useSelector(state => state.auth)
-  const user = firebase.auth().currentUser
+  const user = firebaseAuth.currentUser
 
   const getUser = useCallback(async () => {
     const apiUser = await fetchCCUser(user)
@@ -31,7 +32,7 @@ function Header({ routes }) {
   }, [setAuthState, user])
 
   useEffect(() => {
-    firebase.auth().onAuthStateChanged(() => {
+    firebaseAuth.onAuthStateChanged(() => {
       if (user && user.emailVerified) {
         getUser(user)
       } else {
@@ -45,7 +46,7 @@ function Header({ routes }) {
   const onSignOut = () => {
     signOut()
     setAuthState(null)
-    firebase.auth().signOut()
+    firebaseAuth.signOut()
   }
 
   return (

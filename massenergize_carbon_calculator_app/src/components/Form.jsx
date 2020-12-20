@@ -50,7 +50,6 @@ const Form = ({
 }) => {
   const classes = useStyles()
   const SubmitButton = ButtonComponent || ButtonWithLoading
-  console.log(status)
   return (
     <>
       <Typography className={classes.title} variant="h5">

@@ -2,9 +2,8 @@ module.exports = {
   plugins: [
     // "html",
     "prettier",
-    // "jest"
   ],
-  extends: ["airbnb", "prettier", "prettier/react"],
+  extends: [ "airbnb", "airbnb/hooks", "prettier", "prettier/react"],
   parser: "babel-eslint",
   parserOptions: {
     ecmaVersion: 8,
@@ -34,7 +33,7 @@ module.exports = {
       "WithStatement"
     ],
     "no-unused-vars": [
-      1,
+      "error",
       {
         ignoreSiblings: true,
         argsIgnorePattern: "res|next|^err"
@@ -48,7 +47,7 @@ module.exports = {
     ],
     "arrow-body-style": [2, "as-needed"],
     "no-unused-expressions": [
-      2,
+      1,
       {
         allowTaggedTemplates: true
       }
@@ -60,30 +59,13 @@ module.exports = {
       }
     ],
     "no-console": 0,
-    "import/prefer-default-export": 0,
     "import": 0,
     "func-names": 0,
     "space-before-function-paren": 0,
     "comma-dangle": 0,
     "max-len": 0,
-    "import/extensions": 0,
-    "import/no-extraneous-dependencies": ["error", { packageDir: "./" }],
     "no-underscore-dangle": 0,
     "consistent-return": 0,
-    "react/display-name": 1,
-    "react/no-array-index-key": 0,
-    "react/react-in-jsx-scope": 0,
-    "react/prefer-stateless-function": 0,
-    "react/forbid-prop-types": 0,
-    "react/no-unescaped-entities": 0,
-    "jsx-a11y/accessible-emoji": 0,
-    "react/require-default-props": 0,
-    "react/jsx-filename-extension": [
-      1,
-      {
-        extensions: [".js", ".jsx"]
-      }
-    ],
     radix: 0,
     "no-shadow": [
       2,
@@ -100,15 +82,25 @@ module.exports = {
         allowTemplateLiterals: true
       }
     ],
-    "prettier/prettier": [
-      "error",
+    "import/prefer-default-export": 0,
+    "import/extensions": 0,
+    "import/no-extraneous-dependencies": ["error", { packageDir: "./" }],
+    "react/jsx-props-no-spreading":0,
+    "react/display-name": 1,
+    "react/no-array-index-key": 0,
+    "react/react-in-jsx-scope": 0,
+    "react/prefer-stateless-function": 0,
+    "react/forbid-prop-types": 0,
+    "react/no-unescaped-entities": 0,
+    "react/require-default-props": 0,
+    "react/jsx-filename-extension": [
+      1,
       {
-        trailingComma: "es5",
-        singleQuote: true,
-        printWidth: 80,
-        endOfLine: "auto"
+        extensions: [".js", ".jsx"]
       }
     ],
+    "prettier/prettier": "error",
+    "jsx-a11y/accessible-emoji": 0,
     "jsx-a11y/href-no-hash": "off",
     "jsx-a11y/anchor-is-valid": [
       "warn",
@@ -120,6 +112,6 @@ module.exports = {
     // "jest/no-focused-tests": "error",
     // "jest/no-identical-title": "error",
     // "jest/prefer-to-have-length": "warn",
-    // "jest/valid-expect": "error"
+    // "jest/valid-expect": "error",
   }
 };

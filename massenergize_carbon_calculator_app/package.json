@@ -9,6 +9,7 @@
     "firebase": "^7.24.0",
     "formik": "^2.2.5",
     "lodash": "^4.17.20",
+    "moment": "^2.29.1",
     "prop-types": "^15.7.2",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
@@ -18,7 +19,8 @@
     "react-scripts": "^3.4.4",
     "redux": "^4.0.4",
     "redux-form": "^8.3.7",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "yup": "^0.32.8"
   },
   "scripts": {
     "dev": "react-scripts start .env",
@@ -26,7 +28,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint": "eslint src --ext .js,.jsx"
+    "lint": "eslint src --ext .js,.jsx",
+    "lint-fix": "eslint src --fix --ext .js,.jsx"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -44,12 +47,17 @@
     ]
   },
   "devDependencies": {
-    "eslint": "^6.8.0",
+    "eslint": "^6.6.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-prettier": "^6.15.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-react": "^7.21.5",
+    "eslint-plugin-react-hooks": "^4.0.0",
     "eslint-plugin-standard": "^4.1.0",
+    "husky": "^4.3.0",
+    "pinst": "^2.1.1",
     "prettier": "^1.19.1"
   }
 }

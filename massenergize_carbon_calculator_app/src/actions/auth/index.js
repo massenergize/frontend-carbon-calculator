@@ -5,13 +5,13 @@ import objectToFormData from '../../utils/objectToFormData'
 export const fetchCCUser = async user => {
   const idToken = await user.getIdToken(true)
   const formData = objectToFormData({ data: { idToken } })
-  const userProfileResponse = await api.post(`/v3/auth.login`, formData, {
+  const userProfileResponse = await api.post(`/auth.login`, formData, {
     headers: {
       'Content-Type': 'multipart/form-data',
     },
   })
 
-  const CCUserProfile = await api.get('/v3/cc/info/user', {
+  const CCUserProfile = await api.get('/cc/info/user', {
     params: {
       email: user.email,
     },
@@ -25,7 +25,7 @@ export const fetchCCUser = async user => {
 
 export const signOut = async () => {
   const formData = objectToFormData({})
-  await api.post(`/v3/auth.logout`, formData, {
+  await api.post(`/auth.logout`, formData, {
     headers: {
       'Content-Type': 'multipart/form-data',
     },
